@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bet.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<title>Bet</title>
+
+</head>
+    <body>
+<!--     Nav Bar     -->
+        <div class="nav-bar">
+            <h1 id="logo">BET</h1>
+        <ul class='nav-out'>
+            <button id="sign-up-Btn" class="button">Sign Up</button>
+            <button id='login-Btn'>Log In</button>
+        </ul>
+        </div>
+<!--    Log In Dialog      -->
+        <div id="login-modal">
+            <div class="modal-content">
+                <span class="closeBtn">&times;</span>
+                <h2>Log In</h2>
+                <section>
+                    <label for="inp" class="inp">
+                        <input type="text" id=username name=username placeholder="&nbsp;" autocomplete="off">
+                        <span class="label">Username</span>
+                        <span class="focus-bg"></span>
+                    </label>
+                    
+                     <label for="inp" class="inp">
+                        <input type="password" id=password name=password placeholder="&nbsp;" autocomplete="off">
+                        <span class="label">Password</span>
+                        <span class="focus-bg"></span>
+                    </label>
+                        <button onclick="login();">Log In</button>
+                </section>
+                <span id="need_to_sign_up">Sign Up</span>
+            </div>
+        </div>
+<!--    Sign Up Dialog      -->
+        <div id="sign-up-modal">
+            <div class="modal-content">
+                <span class="closeBtn">&times;</span>
+                <h2>Sign Up</h2>
+                <section>
+                    <label for="inp" class="inp">
+                        <input type="text" id=new_username name=username placeholder="&nbsp;" autocomplete="off">
+                        <span class="label">Username</span>
+                        <span class="focus-bg"></span>
+                    </label>
+                    
+                     <label for="inp" class="inp">
+                        <input type="password" id=new_password name=password placeholder="&nbsp;" autocomplete="off">
+                        <span class="label">Password</span>
+                        <span class="focus-bg"></span>
+                    </label>
+                        <button onclick="sign_up();">Sign Up</button>
+                </section>
+                <span id="already_has_account">Already Have An Account?</span>
+            </div>
+        </div>
+<!--    Under the Nav              -->
+        <div class='grid'>
+<!--    Bets              -->
+            <div class="bets">
+                {% for bet in bets %}
+                    {% include 'bet.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+    <script type=text/javascript src="{{url_for('static', filename='js/not_logged_in_homepage.js')}}"></script>
+</html>

@@ -1,0 +1,17 @@
+<div class="nav-bar">
+    <h1 id="logo">BET</h1>
+    <input id="search" type="text" placeholder="Search All Bets by Event Name...">
+    <div class='nav_button'>
+        <span id="created_bets_Btn">Created Bets</span>
+    </div>
+    <div class='nav_button'>
+        <span id="bets_engaged_in_Btn">Bets Engaged In</span>
+    </div>
+    <div class='nav_button'>
+        <span id="private_bets_Btn">Private Bets</span>
+    </div>
+    <div class='nav_button'>
+        <img width= 40px height= 40px src="{{ url_for('static', filename='img/user.svg') }}" id="profile_Btn">
+    </div>
+    <button onclick="logout();" id='logout-Btn'>Log Out</button>
+</div>

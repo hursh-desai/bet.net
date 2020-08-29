@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/created_bets.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<title>Bet</title>
+<link rel="shortcut icon"
+    href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+    <body>
+<!--     Nav Bar     -->
+        {% include 'nav.html' %}
+<!--    Under the Nav              -->
+        <div class='grid'>
+<!--    Bets              -->
+            <div class="bets">
+            {% for bet in bets %}
+                <div class="bet">
+                    <h3 id="eventname">{{ bet.event_name }}</h3>
+                    <h3 id="amount">{{ bet.bet_amount }}</h3>
+                </div>
+                {% for agreement in bet.agreements %}
+                        <div class="agreement">
+                            <h3 class="thing">- {{ agreement.engagor.username }}</h3>
+<!--                     <button onclick="agree(this);" id='{{ bet.id }}'>Agree</button> -->
+                        </div>
+                    {% endfor %}
+            {% endfor %}
+            </div>
+        </div>
+    </body>
+    <script type=text/javascript src="{{url_for('static', filename='js/not_creating_page.js')}}"></script>
+</html>

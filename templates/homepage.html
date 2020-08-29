@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bet.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<title>Bet</title>
+<link rel="shortcut icon"
+    href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+    <body>
+<!--     Nav Bar     -->
+        {% include 'nav.html' %}
+<!--    Under the Nav              -->
+        <div class='grid'>
+<!--    Bets              -->
+            <div class="bets">
+            {% for bet in bets %}
+                {% include 'bet.html' %}
+            {% endfor %}
+            </div>
+<!--    Create a Bet              -->
+            <div class="make-bet">
+                <section>
+                    <label for="inp" class="inp">
+                        <input type="number" id=bet_amount name=bet_amount placeholder="&nbsp;" autocomplete="off">
+                        <span class="label">Bet Amount</span>
+                        <span class="focus-bg"></span>
+                    </label>
+                    
+                     <label for="inp" class="inp">
+                        <input type="text" id=event_name name=event_name placeholder="&nbsp;" autocomplete="off">
+                        <span class="label">Event Name</span>
+                        <span class="focus-bg"></span>
+                    </label>
+                        <button onclick="create();">Create</button>
+                </section>
+            </div>
+        </div>
+    </body>
+    <script type=text/javascript src="{{url_for('static', filename='js/homepage.js')}}"></script>
+</html>
