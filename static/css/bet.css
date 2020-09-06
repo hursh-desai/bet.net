@@ -1,27 +1,32 @@
 .bet{
-    height: 250px;
-    background-color: #555;
+    max-height: 250px;
+    border: 2px solid #555;
     border-radius: 3px; 
     margin-bottom: 10px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
 }
 #eventname{
     grid-column-start: 1;
-    grid-column-end: 2; 
+    grid-row-start: 1;
+    /* grid-column-end: 2;  */
+    margin: 25px 0px 0px 25px;
+}
+#amount{
+    grid-column-start: 1;
+    grid-row-start: 2;
+    /* grid-column-end: 3; */
     margin: 25px 0px 0px 25px;
 }
 #username{
+    grid-column-start: 1;
+    grid-row-start: 3;
+    /* grid-column-end: 4;     */
+    margin: 25px 0px 0px 25px;
+}
+.bet button, #same-person {
     grid-column-start: 3;
-    grid-column-end: 4;    
+    max-height: 50px;
     margin: 25px 0px 0px 0px;
-}
-#amount{
-    grid-column-start: 2;
-    grid-column-end: 3;
-    margin: 0px;
-}
-
-.bet button {
-    height: 100px;
 }

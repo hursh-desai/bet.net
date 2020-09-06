@@ -1,11 +1,11 @@
 <div class="bet">
     <h3 id="eventname">Event Name: {{ bet.event_name }}</h3>
-    <h3 id="username" data-bet-id='{{ bet.id }}' data-bet-user='{{ bet.user.username }}'>{{ bet.user.username }}</h3>
-    <h3 id="amount">{{ bet.bet_amount }}</h3>
+    <h3 id="amount">Bet Amount: {{ bet.bet_amount }}</h3>
+    <h3 id="username" data-bet-id='{{ bet.id }}' data-bet-user='{{ bet.creator.username }}'>Creator: {{ bet.creator.username }}</h3>
     <div class="bet-id" data-id='{{ bet.id|tojson }}' hidden>{{ bet.id }}</div>
     {% if user is not defined %}
     <button onclick="openModal();" id='cant-accept-Btn'>I'll Take You Up</button>
-    {% elif user.username == bet.user.username %}
+    {% elif user.username == bet.creator.username %}
     <h3 id="same-person">Same Person</h3>
     {% else %}
     <button onclick="accept(this);" id='{{ bet.id }}'>I'll Take You Up</button>

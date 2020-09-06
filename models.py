@@ -1,6 +1,8 @@
-from app import db
+from app import db,migrate
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import Index,func,cast
+from sqlalchemy.dialects import postgresql
 import datetime
 
 class Agreement(db.Model):
@@ -17,25 +19,29 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True)
     password_hash = db.Column(db.String())
-    bets = db.relationship('Bet', backref='user')
+    bets = db.relationship('Bet', backref='creator')
+
     agreed = db.relationship(
-        'User', secondary='agreements',
+        'User', 
+        secondary='agreements',
         primaryjoin=(Agreement.creator_id == id),
         secondaryjoin=(Agreement.engagor_id == id),
-        backref=db.backref('engaged_in', lazy='dynamic'), lazy='dynamic')
+        backref=db.backref('engaged_in', lazy='dynamic'), 
+        lazy='dynamic',
+        )
     
     bets_engaged_in = db.relationship(
-        'Bet', secondary='agreements',
+        'Bet', 
+        secondary='agreements',
         primaryjoin=(Agreement.engagor_id == id),
-        backref=db.backref('engaged_in', lazy='dynamic'))
+        backref=db.backref('engaged_in', lazy='dynamic'),
+        )
     
-    bets_not_engaged_in = db.relationship(
-        'Bet', secondary='agreements',
-        primaryjoin=(Agreement.engagor_id != id),
-        secondaryjoin=(Agreement.bet_id == id),
-        backref=db.backref('not_engaged_in', lazy='dynamic'), viewonly=True)
-    
-    agreements_engaged_in = db.relationship('Agreement', primaryjoin=(Agreement.engagor_id == id), backref=db.backref("engagor"))
+    agreements_engaged_in = db.relationship(
+        'Agreement', 
+        primaryjoin=(Agreement.engagor_id == id), 
+        backref=db.backref("engagor"),
+        )
 
 #     registered_on = db.Column(db.DateTime(timezone=True))
     def set_password(self, password):
@@ -54,6 +60,12 @@ class Event(db.Model):
     decider_url = db.Column(db.String(30))
     date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
 
+def create_tsvector(*args):
+    exp = args[0]
+    for e in args[1:]:
+        exp += ' ' + e
+    return func.to_tsvector('english', exp)
+
 class Bet(db.Model):
     __tablename__ = 'bets'
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +74,18 @@ class Bet(db.Model):
     bet_amount = db.Column(db.Integer)
     access = db.Column(db.Boolean())
     date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
+    __ts_vector__ = create_tsvector(
+        cast(func.coalesce(event_name, ''), postgresql.TEXT)
+    )
+    
+
+    __table_args__ = (
+        Index(
+            'event_name_tsv',
+            __ts_vector__,
+            postgresql_using='gin'
+            ),
+        )
     
 
     

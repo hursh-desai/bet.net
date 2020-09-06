@@ -24,20 +24,13 @@
             </div>
 <!--    Create a Bet              -->
             <div class="make-bet">
-                <section>
-                    <label for="inp" class="inp">
-                        <input type="number" id=bet_amount name=bet_amount placeholder="&nbsp;" autocomplete="off">
                         <span class="label">Bet Amount</span>
-                        <span class="focus-bg"></span>
-                    </label>
-                    
-                     <label for="inp" class="inp">
-                        <input type="text" id=event_name name=event_name placeholder="&nbsp;" autocomplete="off">
+                        <input type="number" id=bet_amount name=bet_amount placeholder="&nbsp;" autocomplete="off">
+                        
                         <span class="label">Event Name</span>
-                        <span class="focus-bg"></span>
-                    </label>
-                        <button onclick="create();">Create</button>
-                </section>
+                        <input type="text" id=event_name name=event_name placeholder="&nbsp;" autocomplete="off">
+                        
+                        <button id=create onclick="create();">Create</button>
             </div>
         </div>
     </body>

@@ -3,7 +3,7 @@ from models import User,Bet,Event,Agreement
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for, make_response
 
-# cd 1_Hack/Project/
+# cd Github/bet.net/
 # python
 # from models import db
 # db.create_all()
@@ -18,6 +18,7 @@ def load_user(user_id):
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
     req = request.get_json()
+    if req is None: return redirect(url_for('home'))
     username = req['username']
     password = req['password']
     user = User(username=username)
@@ -30,6 +31,7 @@ def sign_up():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     req = request.get_json()
+    if req is None: return redirect(url_for('home'))
     username = req['username']
     password = req['password']
     user = User.query.filter_by(username=username).first()
@@ -52,8 +54,7 @@ def profile():
 @app.route('/')
 def home():
     if current_user.is_authenticated:
-        bets_engaged_in_ids = [bet.id for bet in current_user.bets_engaged_in]
-        bets = Bet.query.filter(Bet.id.notin_(bets_engaged_in_ids)).order_by(Bet.date.desc())
+        bets = Bet.query.filter(Bet.id.notin_([bet.id for bet in current_user.bets_engaged_in])).filter(Bet.creator != current_user).order_by(Bet.date.desc())
         return render_template('homepage.html', user=current_user, bets=bets)
     else: 
         bets = Bet.query.order_by(Bet.date.desc())
@@ -62,6 +63,7 @@ def home():
 @app.route('/create', methods=['POST'])
 def create():
     req = request.get_json()
+    if req is None: return redirect(url_for('home'))
     bet_amount = req['bet_amount']
     event_name = req['event_name']
     creator_id = current_user.id
@@ -73,6 +75,7 @@ def create():
 @app.route('/accept', methods=['POST'])
 def accept():
     req = request.get_json()
+    if req is None: return redirect(url_for('home'))
     bet_id = req['bet_id']
     engagor_id = current_user.id
     creator_id = Bet.query.get(bet_id).creator_id
@@ -84,6 +87,7 @@ def accept():
 @app.route('/agree', methods=['POST'])
 def agree():
     req = request.get_json()
+    if req is None: return redirect(url_for('home'))
     bet_id = req['bet_id']
 #     admin = User.query.filter_by(username='admin').update(dict(email='my_new_email@example.com')))
     db.session.commit()
@@ -102,3 +106,14 @@ def bets_engaged_in():
 @app.route('/private_bets')
 def private_bets():
     return render_template('private_bets.html')
+
+@app.route('/search', methods=['POST'])
+def search():
+    req = request.get_json()
+    if req is None: return redirect(url_for('home'))
+    search = req['search']
+    search = search.replace(" ", " & ")
+    print(search)
+    bets = Bet.query.filter(Bet.__ts_vector__.match(search, postgresql_regconfig='english')).all()
+    print(bets)
+    return str(bets)
