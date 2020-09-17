@@ -9,6 +9,11 @@ body{
 body::-webkit-scrollbar{
     display:none;
 }
+#title{
+    grid-column-start: 1;
+    grid-column-end: 7;
+    margin: 0px 0px 20px 0px;
+}
 
 .main{
     display: grid;
@@ -16,17 +21,20 @@ body::-webkit-scrollbar{
     grid-template-columns: repeat(10, 1fr);
 }
 .bets{
-    grid-column-start: 3;
-    grid-column-end: 7;
+    grid-column-start: 2;
+    grid-column-end: 6;
 }
 
 .make-bet{
-    grid-column-start: 7;
-    grid-column-end: 11;
     max-height: 250px;
     border-radius: 3px; 
     border: 2px solid #555;
     margin: 0px 25px 0px 25px;
+    position: absolute;
+    top: 14%;
+    bottom: 0;
+    left: 60%;
+    right: .5%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -45,11 +53,8 @@ body::-webkit-scrollbar{
     position: relative;
     top: 40px;
 }
-.event_name{
+.bet_amount{
     grid-row-start: 2;
-}
-.mod_name{
-    grid-row-start: 3;
 }
 
 #create{
@@ -59,7 +64,5 @@ body::-webkit-scrollbar{
     max-height: 40px;
     margin: 10px 0px 0px 40px; 
 }
-
-
 
   

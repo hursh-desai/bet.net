@@ -14,7 +14,7 @@
 <!--     Nav Bar     -->
         {% include 'nav.html' %}
 <!--    Under the Nav              -->
-        <div class='grid'>
+        <div class='main'>
 <!--    Bets              -->
             <div class="bets">
             {% for bet in bets %}
@@ -32,5 +32,5 @@
             </div>
         </div>
     </body>
-    <script type=text/javascript src="{{url_for('static', filename='js/not_creating_page.js')}}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/homepage.js')}}"></script>
 </html>

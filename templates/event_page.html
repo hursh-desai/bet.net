@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/event_page.css') }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 <title>Bet</title>
@@ -14,6 +14,15 @@
         {% include 'nav.html' %}
 <!--    Under the Nav              -->
         <div class='main'>
+            <h1 id='title'>
+                Event Name: {{eventname}}
+            </h1>
+            <h1 id='title'>
+                Creator Name: *Creator*
+            </h1>
+            <h1 id='title'>
+                Moderator Name: *Moderator*
+            </h1>
 <!--    Bets              -->
         <div class="bets">
             {% for bet in bets %}
@@ -22,15 +31,8 @@
         </div>
 <!--    Create a Bet              -->
             <div class="make-bet">
-                <h3>
-                    Create An Event
-                </h3>
-                        
-                <span class="label event_name">Event Name</span>
-                <input type=text class="input event_name" id=event_name placeholder="&nbsp;" autocomplete="off">
-
-                <span class="label mod_name">Moderator Name</span>
-                <input type=text class="input mod_name" id=mod_name placeholder="&nbsp;" autocomplete="off">
+                <span class="label bet_amount">Bet Amount</span>
+                <input type=number class="input bet_amount" id=bet_amount placeholder="&nbsp;" autocomplete="off">
                         
                 <button id=create onclick="create();">Create</button>
             </div>

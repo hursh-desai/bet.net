@@ -56,6 +56,7 @@ class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30))
+    moderator_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
     access = db.Column(db.Boolean())
     decider_url = db.Column(db.String(30))
     date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)

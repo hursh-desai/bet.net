@@ -15,24 +15,10 @@
 <!--    Under the Nav              -->
         <div class='main'>
 <!--    Bets              -->
-        <div class="bets">
-            {% for bet in bets %}
-                {% include 'bet.html' %}
-            {% endfor %}
-        </div>
-<!--    Create a Bet              -->
-            <div class="make-bet">
-                <h3>
-                    Create An Event
-                </h3>
-                        
-                <span class="label event_name">Event Name</span>
-                <input type=text class="input event_name" id=event_name placeholder="&nbsp;" autocomplete="off">
-
-                <span class="label mod_name">Moderator Name</span>
-                <input type=text class="input mod_name" id=mod_name placeholder="&nbsp;" autocomplete="off">
-                        
-                <button id=create onclick="create();">Create</button>
+            <div class="bets">
+                {% for bet in bets %}
+                    {% include 'bet.html' %}
+                {% endfor %}
             </div>
         </div>
     </body>

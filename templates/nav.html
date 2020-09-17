@@ -1,17 +1,55 @@
-<div class="nav-bar">
-    <h1 id="logo">BET</h1>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nav.css') }}">
+<div id="nav-bar">
+    <h1 id="logo" onclick="home();">BET</h1>
+
     <input id="search" type="text" placeholder="Search All Bets by Event Name...">
-    <div class='nav_button'>
-        <span id="created_bets_Btn">Created Bets</span>
-    </div>
-    <div class='nav_button'>
-        <span id="bets_engaged_in_Btn">Bets Engaged In</span>
-    </div>
-    <div class='nav_button'>
-        <span id="private_bets_Btn">Private Bets</span>
-    </div>
-    <div class='nav_button'>
-        <img width= 40px height= 40px src="{{ url_for('static', filename='img/user.svg') }}" id="profile_Btn">
-    </div>
-    <button onclick="logout();" id='logout-Btn'>Log Out</button>
+
+    <span class='nav_button' id="created_bets_Btn" onclick="created_bets();"> Created Bets </span>
+
+    <span class='nav_button' id="bets_engaged_in_Btn" onclick="bets_engaged_in();"> Bets Engaged In </span>
+
+    <span class='nav_button' id="private_bets_Btn" onclick="private_bets();"> Private Bets </span>
+
+    <img class='nav_button profile_Btn' id="{{user.username}}" onclick="profile(this);" width= 40px height= 40px src="{{ url_for('static', filename='img/user.svg') }}" >
+
+    <button class='nav_button' id='logout-Btn' onclick="logout();">Log Out</button>
 </div>
+
+<script>
+function add_enter(element_id, call) {
+    document.getElementById(element_id).onkeypress = function(e) {
+        if(e.keyCode == 13) {
+            call();
+        }
+    }
+}
+add_enter('search', search);
+
+function logout() {
+    fetch('/logout')
+    .then(function(data) {
+        window.location.href = '/';
+    });
+}
+
+function search(ele) {
+    var search = document.getElementById('search').value;
+    window.location.href = '/search/' + search;
+}
+
+function home() {
+        window.location.href = '/';
+}
+function created_bets() {
+        window.location.href = '/created_bets';
+}
+function bets_engaged_in() {
+        window.location.href = '/bets_engaged_in';
+}
+function private_bets() {
+        window.location.href = '/private_bets';
+}
+function profile(ele) {
+    window.location.href = '/user/' + ele.id;
+}
+</script>

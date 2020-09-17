@@ -29,7 +29,6 @@ function login() {
     .then(response => location.reload(true));
 }
 
-
 function sign_up() {
     var username = document.getElementById('new_username').value;
     var password = document.getElementById('new_password').value;
@@ -47,8 +46,6 @@ function sign_up() {
     })
     .then(response => location.reload(true));
 }
-
-
 
 var login_modal = document.getElementById('login-modal');
 var login_Btn = document.getElementById('login-Btn');

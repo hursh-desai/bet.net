@@ -1,0 +1,83 @@
+body{
+    font-family: Roboto, arial, helvetica, sans-serif;
+    margin: 0px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+body::-webkit-scrollbar{
+    display:none;
+}
+
+.nav-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 0px 10px 0px;
+    border-bottom: 2px solid #555;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    max-width: 100%;
+}
+#logo{
+    font-size: 4rem;
+    background: linear-gradient(to left, #77bbd9, #c5e2f0);
+    background-clip: content-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0px;
+}
+#sign-up-Btn, #login-Btn{
+    border: 1.25px solid #555;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.main{
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    margin: 100px 0px 0px 0px;
+}
+.bets{
+    grid-column-start: 3;
+    grid-column-end: 7;
+}
+
+#login-modal,#sign-up-modal {
+    display:none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content{
+    background-color: #ffffff;
+    margin: 20% auto;
+    padding: 20px;
+    width: 50%;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),  0 7px 20px 0 rgba(0,0,0,0.17)
+}
+
+.closeBtn{
+    color: #ccc;
+    float: right;
+    font-size: 30px;
+}
+
+#need_to_sign_up, #already_has_account{
+    color: #ccc;    
+    font-size: 30px;
+}
+
+
+.closeBtn:hover, .closeBtn:focus, #need_to_sign_up:hover, #need_to_sign_up:focus, #already_has_account:hover, #already_has_account:focus{
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

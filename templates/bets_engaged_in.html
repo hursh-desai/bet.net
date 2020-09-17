@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bets_engaged_in.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bet.css') }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
@@ -14,15 +14,30 @@
     <body>
 <!--     Nav Bar     -->
         {% include 'nav.html' %}
-<!--    Under the Nav              -->
-        <div class='grid'>
-<!--    Bets              -->
-            <div class="bets">
-            {% for bet in bets %}
+<!--     Main        -->
+        <div class='main'>
+            <h3>Creator</h3>
+            <div id="creator">
+                {% for bet in created_bets %}
+                    {% include 'bet.html' %}
+                {% endfor %}
+            </div>
+
+            <h3>Engagor</h3>
+            <div id="engagor">
+            {% for bet in bets_engaged_in %}
                 {% include 'bet.html' %}
             {% endfor %}
             </div>
+
+            <h3>Moderator</h3>
+            <div id="moderator">
+                {% for bet in created_bets %}
+                    {% include 'bet.html' %}
+                {% endfor %}
+                </div>
+
         </div>
     </body>
-    <script type=text/javascript src="{{url_for('static', filename='js/not_creating_page.js')}}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/homepage.js')}}"></script>
 </html>

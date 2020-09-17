@@ -1,5 +1,6 @@
 .bet{
     max-height: 250px;
+    max-width: 550px;
     border: 2px solid #555;
     border-radius: 3px; 
     margin-bottom: 10px;
@@ -7,26 +8,52 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
 }
-#eventname{
-    grid-column-start: 1;
+
+.link{
+    color: rgba(0,0,0,0.5);
+    font-weight: bold;
+}
+
+.eventname{
     grid-row-start: 1;
-    /* grid-column-end: 2;  */
-    margin: 25px 0px 0px 25px;
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+    margin: 5px 0px 0px 5px;
+    overflow: hidden;
+    max-width: 40%;
 }
 #amount{
-    grid-column-start: 1;
+    font-size: 4rem;
     grid-row-start: 2;
-    /* grid-column-end: 3; */
-    margin: 25px 0px 0px 25px;
+    grid-row-end: 4;
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+    justify-self: center;
+    align-self: center;
+    margin: 15px;
+    overflow: hidden;
 }
-#username{
-    grid-column-start: 1;
-    grid-row-start: 3;
-    /* grid-column-end: 4;     */
-    margin: 25px 0px 0px 25px;
+.username{
+    grid-row-start: 4;
+    grid-column-start: 1; 
+    grid-column-end: 5; 
+    justify-self: end;
+    align-self: end;
+    margin: 0px 5px 5px 0px;
+    overflow: hidden;
+}
+.eventname:hover, .username:hover{
+    color: lightblue;
+    text-decoration: none;
+    cursor: pointer;
 }
 .bet button, #same-person {
+    grid-row-start: 2;
+    grid-row-end: 4;
     grid-column-start: 3;
-    max-height: 50px;
-    margin: 25px 0px 0px 0px;
+    align-self: center;
+    justify-self: center;
+    max-height: 70px;
+    margin: 0px;
+    padding: 30px;
 }

@@ -47,10 +47,6 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/profile')
-def profile():
-    return render_template('profile.html')
-
 @app.route('/')
 def home():
     if current_user.is_authenticated:
@@ -66,11 +62,19 @@ def create():
     if req is None: return redirect(url_for('home'))
     bet_amount = req['bet_amount']
     event_name = req['event_name']
+    moderator_name = req['mod_name']
     creator_id = current_user.id
-    bet = Bet(creator_id=creator_id, event_name=event_name, bet_amount=bet_amount, access=True)
-    db.session.add(bet)
-    db.session.commit()
-    return 'response'
+    moderator = User.query.filter_by(username=moderator_name).first()
+    if event_name==None:
+        return make_response(jsonify({"mod_name":str('event_name does not exist')}), 200) 
+    elif moderator==None:
+        return make_response(jsonify({"mod_name":str(moderator_name) + 'does not exist'}), 200) 
+    else:
+        moderator_id = moderator.id
+        # bet = Bet(creator_id=creator_id, event_name=event_name, bet_amount=bet_amount, access=True)
+        # db.session.add(bet)
+        # db.session.commit()
+        return make_response(jsonify({"mod_name":str(moderator_id)}), 200)
 
 @app.route('/accept', methods=['POST'])
 def accept():
@@ -96,24 +100,34 @@ def agree():
 @app.route('/created_bets')
 def created_bets():
     bets = current_user.bets
-    return render_template('created_bets.html', bets=bets)
+    return render_template('created_bets.html', user=current_user, bets=bets)
 
 @app.route('/bets_engaged_in')
 def bets_engaged_in():
-    bets = current_user.bets_engaged_in
-    return render_template('bets_engaged_in.html', bets=bets)
+    bets_engaged_in = current_user.bets_engaged_in
+    created_bets = current_user.bets
+    return render_template('bets_engaged_in.html', user=current_user, bets_engaged_in=bets_engaged_in, created_bets=created_bets)
 
 @app.route('/private_bets')
 def private_bets():
-    return render_template('private_bets.html')
+    return render_template('private_bets.html', user=current_user)
 
-@app.route('/search', methods=['POST'])
-def search():
-    req = request.get_json()
-    if req is None: return redirect(url_for('home'))
-    search = req['search']
-    search = search.replace(" ", " & ")
-    print(search)
+@app.route('/search/<variable>', methods=['GET'])
+def search(variable):
+    search = variable.replace(" ", " & ")
     bets = Bet.query.filter(Bet.__ts_vector__.match(search, postgresql_regconfig='english')).all()
-    print(bets)
-    return str(bets)
+    return render_template('search.html', user=current_user, bets=bets)
+
+@app.route('/user/<variable>', methods=['GET'])
+def user(variable):
+    if variable == current_user.username:
+        return render_template('profile.html', user=current_user, username=variable, owner='Your Account')
+    return render_template('profile.html', user=current_user, username=variable, owner='Not Your Account')
+
+@app.route('/eventname/<variable>', methods=['GET'])
+def eventname(variable):
+    search = variable.replace(" ", " & ")
+    bets = Bet.query.filter(Bet.__ts_vector__.match(search, postgresql_regconfig='english')).all()
+    return render_template('event_page.html', user=current_user, eventname=variable, bets=bets)
+
+

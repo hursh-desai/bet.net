@@ -1,0 +1,74 @@
+body{
+    font-family: Roboto, arial, helvetica, sans-serif;
+    margin: 0px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+#nav-bar{
+    display: flex;
+    background-color: #FFFFFF;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 0px 10px 0px;
+    border-bottom: 2px solid #555;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    width: 100%;
+    position: fixed; 
+    top: 0; 
+    overflow: hidden;
+    z-index: 1;
+}
+.nav_button{
+    padding: 10px;
+    text-align: center;
+    border-radius: 3px;
+}
+.nav_button:hover{
+    background-color: rgba(0,0,0,0.5);
+    text-decoration: none;
+    cursor: pointer;
+}
+#logo{
+    font-size: 4rem;
+    background: linear-gradient(to left, #77bbd9, #c5e2f0);
+    background-clip: content-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0px;
+}
+#logo:hover{
+    text-decoration: none;
+    cursor: pointer;
+}
+#search{
+    padding: 10px 20px 10px 20px;
+    width: 200px;
+}
+.profile_Btn{
+    padding: 10px;
+    text-align: center;
+    border-radius: 3px;
+}
+.profile_Btn:hover, .profile_Btn:focus{
+    background-color: rgba(0,0,0,0.5);
+    text-decoration: none;
+    cursor: pointer;
+}
+#sign-up-Btn, #login-Btn, #logout-Btn{
+    border: 1.25px solid #555;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+#logout-Btn{
+    margin: 0px 10px 0px 0px
+}
+  
+
+
+
+
