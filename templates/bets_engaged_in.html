@@ -18,7 +18,7 @@
         <div class='main'>
             <h3>Creator</h3>
             <div id="creator">
-                {% for bet in created_bets %}
+                {% for bet in bets_created %}
                     {% include 'bet.html' %}
                 {% endfor %}
             </div>
@@ -32,7 +32,7 @@
 
             <h3>Moderator</h3>
             <div id="moderator">
-                {% for bet in created_bets %}
+                {% for bet in events_moderated %}
                     {% include 'bet.html' %}
                 {% endfor %}
                 </div>

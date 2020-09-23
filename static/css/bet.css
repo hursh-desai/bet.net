@@ -21,6 +21,8 @@
     margin: 5px 0px 0px 5px;
     overflow: hidden;
     max-width: 40%;
+    justify-self: start;
+    align-self: start;
 }
 #amount{
     font-size: 4rem;
@@ -32,6 +34,7 @@
     align-self: center;
     margin: 15px;
     overflow: hidden;
+    padding: 30px;
 }
 .username{
     grid-row-start: 4;
@@ -42,18 +45,20 @@
     margin: 0px 5px 5px 0px;
     overflow: hidden;
 }
-.eventname:hover, .username:hover{
+.eventname:hover, .username:hover, #accept-Btn:hover, #cant-accept-Btn:hover{
     color: lightblue;
     text-decoration: none;
     cursor: pointer;
 }
-.bet button, #same-person {
+#accept-Btn, #cant-accept-Btn, #same-person {
     grid-row-start: 2;
     grid-row-end: 4;
     grid-column-start: 3;
     align-self: center;
     justify-self: center;
-    max-height: 70px;
+    width: 98px;
+    height: 78px;
     margin: 0px;
-    padding: 30px;
+    text-align: center;
 }
+

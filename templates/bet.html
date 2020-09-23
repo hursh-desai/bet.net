@@ -12,6 +12,9 @@
     {% elif user.username == bet.creator.username %}
     <h3 id="same-person">Same Person</h3>
     {% else %}
-    <button onclick="accept(this);" id='{{ bet.id }}'>I'll Take You Up</button>
+    
+    <img onclick="accept();" id='accept-Btn' name='{{ bet.id }}' onmouseover="hover(this)" onmouseout="not_hover(this)" 
+    src="{{ url_for('static', filename='img/handshake.png') }}"></img>
+
     {% endif %}
 </div>

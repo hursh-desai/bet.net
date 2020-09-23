@@ -14,14 +14,23 @@
         {% include 'nav.html' %}
 <!--    Under the Nav              -->
         <div class='main'>
-            <h1 id='title'>
+                {% if condition %}
+                <h1>This Event Does Not Exist</h1>
+                {% else %}
+            <h1 class='title' id='bet_event_name' name='{{eventname}}'>
                 Event Name: {{eventname}}
             </h1>
-            <h1 id='title'>
+            <h1 class='title'>
                 Creator Name: *Creator*
             </h1>
-            <h1 id='title'>
+            <h1 class='title'>
                 Moderator Name: *Moderator*
+            </h1>
+            <h1 class='title'>
+                What Does Yes Mean?: .....
+            </h1>
+            <h1 class='title'>
+                What Does No Mean?: .....
             </h1>
 <!--    Bets              -->
         <div class="bets">
@@ -33,10 +42,19 @@
             <div class="make-bet">
                 <span class="label bet_amount">Bet Amount</span>
                 <input type=number class="input bet_amount" id=bet_amount placeholder="&nbsp;" autocomplete="off">
+                <div id="error"></div>
+
+                <form>
+                    <input type="radio" id="yes" name="y_n" value="Yes">
+                    <label for="male">Yes</label><br>
+                    <input type="radio" id="no" name="y_n" value="No">
+                    <label for="female">No</label><br>
+                </form>
                         
-                <button id=create onclick="create();">Create</button>
+                <button id=create onclick="create_bet();">Create</button>
             </div>
         </div>
     </body>
+{% endif %}
     <script type=text/javascript src="{{url_for('static', filename='js/homepage.js')}}"></script>
 </html>

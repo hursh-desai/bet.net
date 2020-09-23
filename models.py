@@ -14,12 +14,22 @@ class Agreement(db.Model):
     final = db.Column(db.Boolean())
     bet = db.relationship('Bet', backref='agreements')
 
+class Event(db.Model):
+    __tablename__ = 'events'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), unique=True)
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    moderator_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
+    access = db.Column(db.Boolean())
+    date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True)
     password_hash = db.Column(db.String())
-    bets = db.relationship('Bet', backref='creator')
+    bets_created = db.relationship('Bet', backref='creator')
+    events_moderated = db.relationship('Event', primaryjoin=(Event.moderator_id == id),  backref='moderator')
 
     agreed = db.relationship(
         'User', 
@@ -43,7 +53,6 @@ class User(UserMixin, db.Model):
         backref=db.backref("engagor"),
         )
 
-#     registered_on = db.Column(db.DateTime(timezone=True))
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
     def check_password(self, password):
@@ -52,15 +61,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
     
-class Event(db.Model):
-    __tablename__ = 'events'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30))
-    moderator_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
-    access = db.Column(db.Boolean())
-    decider_url = db.Column(db.String(30))
-    date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
-
 def create_tsvector(*args):
     exp = args[0]
     for e in args[1:]:
@@ -71,22 +71,14 @@ class Bet(db.Model):
     __tablename__ = 'bets'
     id = db.Column(db.Integer, primary_key=True)
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    event_name = db.Column(db.String(30))
+    event_name = db.Column(db.String(30), db.ForeignKey('events.name'))
     bet_amount = db.Column(db.Integer)
-    access = db.Column(db.Boolean())
+    y_n = db.Column(db.Boolean())
     date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
     __ts_vector__ = create_tsvector(
         cast(func.coalesce(event_name, ''), postgresql.TEXT)
     )
-    
 
-    __table_args__ = (
-        Index(
-            'event_name_tsv',
-            __ts_vector__,
-            postgresql_using='gin'
-            ),
-        )
-    
+    Index('event_name_tsv', __ts_vector__, postgresql_using='gin')
 
     

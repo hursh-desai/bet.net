@@ -38,6 +38,7 @@ body::-webkit-scrollbar{
     margin: 0px 0px 0px 10px;
 }
 .input{
+    /* border-radius: 3px; */
     grid-column-start: 1;
     max-width: 200px;
     max-height: 20px;
@@ -45,6 +46,9 @@ body::-webkit-scrollbar{
     position: relative;
     top: 40px;
 }
+
+#error{ color: red }
+
 .event_name{
     grid-row-start: 2;
 }
