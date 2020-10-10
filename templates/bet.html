@@ -5,14 +5,37 @@
 
     <h3 id="amount">{{ bet.bet_amount }}</h3>
 
+    {% if bet.y_n %}
+    <h3 id="y_n">Yes</h3>
+    {% else %}
+    <h3 id="y_n">No</h3>
+    {% endif %}
+
     <span class="username" onclick="user(this);" id='{{ bet.creator.username }}'>{{ bet.creator.username }}</span>
+
+    {% if bet is not in current_user.bets_engaged_in %}
+    <span id="first-stage"></span>
+    {% else %}
+    <span class='lit' id="first-stage"></span>
+    {% endif %}
+
+    {% for agreement in bet.agreements %}
+        {% if ((agreement.engagor_id == current_user.id) and (agreement.creator_id == bet.creator_id)) %}
+            {% if agreement.final %}
+                <span class='lit' id="second-stage"></span>
+            {% else %}
+                <span id="second-stage"></span>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
 
     {% if user is not defined %}
     <button onclick="openModal();" id='cant-accept-Btn'>I'll Take You Up</button>
     {% elif user.username == bet.creator.username %}
     <h3 id="same-person">Same Person</h3>
+    {% elif bet is in current_user.bets_engaged_in %}
+    <span></span>
     {% else %}
-    
     <img onclick="accept();" id='accept-Btn' name='{{ bet.id }}' onmouseover="hover(this)" onmouseout="not_hover(this)" 
     src="{{ url_for('static', filename='img/handshake.png') }}"></img>
 

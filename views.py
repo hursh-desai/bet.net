@@ -1,7 +1,18 @@
-from app import app,db
-from models import User,Bet,Event,Agreement
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for, make_response
+from models import User,Bet,Event,Agreement
+from app import app,db
+import braintree
+
+gateway = braintree.BraintreeGateway(
+    braintree.Configuration(
+        braintree.Environment.Sandbox,
+        merchant_id="kkwts8f7djjnh2tx",
+        public_key="gb9bzstq7hpj8bc8",
+        private_key="7033e8c87ae86f037686a2b7bc0d8e3d"
+    )
+)
+
 
 # flask db migrate
 # flask db upgrade
@@ -68,9 +79,9 @@ def create_event():
         return make_response(jsonify({"error":str('Invalid Moderator Name')}), 401) 
     else:
         moderator_id = moderator.id
-        # event = Event(name=event_name, creator_id=creator_id, moderator_id=moderator_id, access=True)
-        # db.session.add(event)
-        # db.session.commit()
+        event = Event(name=event_name, creator_id=creator_id, moderator_id=moderator_id, access=True)
+        db.session.add(event)
+        db.session.commit()
         return redirect(url_for("eventname", variable=event_name), code=301)
 
 @app.route('/create_bet', methods=['POST'])
@@ -83,9 +94,9 @@ def create_bet():
     event_name = req['event_name']
     y_n = req['y_n']
     creator_id = current_user.id
-    # bet = Bet(creator_id=creator_id, event_name=event_name, bet_amount=bet_amount, y_n=y_n)
-    # db.session.add(bet)
-    # db.session.commit()
+    bet = Bet(creator_id=creator_id, event_name=event_name, bet_amount=bet_amount, y_n=y_n)
+    db.session.add(bet)
+    db.session.commit()
     return make_response(jsonify({"mod_name":str(y_n)}), 200)
 
 @app.route('/accept', methods=['POST'])
@@ -95,9 +106,10 @@ def accept():
     bet_id = req['bet_id']
     engagor_id = current_user.id
     creator_id = Bet.query.get(bet_id).creator_id
-    agreement = Agreement(creator_id=creator_id, engagor_id=engagor_id, bet_id=bet_id, final=False)
-    db.session.add(agreement)
-    db.session.commit()
+    print(bet_id)
+    # agreement = Agreement(creator_id=creator_id, engagor_id=engagor_id, bet_id=bet_id, final=False)
+    # db.session.add(agreement)
+    # db.session.commit()
     return 'response'
 
 @app.route('/agree', methods=['POST'])
@@ -105,9 +117,24 @@ def agree():
     req = request.get_json()
     if req is None: return redirect(url_for('home'))
     bet_id = req['bet_id']
-#     admin = User.query.filter_by(username='admin').update(dict(email='my_new_email@example.com')))
-    db.session.commit()
+    engagor_id = req['engagor_id']
+    creator_id = current_user.id
+    agreement = Agreement.query.filter_by(bet_id=bet_id, engagor_id=engagor_id, creator_id=creator_id).first()
+    agreement.final = True
+    # db.session.commit()
     return 'agree'
+
+@app.route('/reject', methods=['POST'])
+def reject():
+    req = request.get_json()
+    if req is None: return redirect(url_for('home'))
+    bet_id = req['bet_id']
+    engagor_id = req['engagor_id']
+    creator_id = current_user.id
+    agreement = Agreement.query.filter_by(bet_id=bet_id, engagor_id=engagor_id, creator_id=creator_id).first()
+    # db.session.delete(agreement)
+    # db.session.commit()
+    return 'reject'
 
 @app.route('/created_bets')
 def created_bets():
@@ -134,8 +161,8 @@ def search(variable):
 @app.route('/user/<variable>', methods=['GET'])
 def user(variable):
     if variable == current_user.username:
-        return render_template('profile.html', user=current_user, username=variable, owner='Your Account')
-    return render_template('profile.html', user=current_user, username=variable, owner='Not Your Account')
+        return render_template('user.html', user=current_user, username=variable, owner=True)
+    return render_template('user.html', user=current_user, username=variable, owner=False)
 
 @app.route('/eventname/<variable>', methods=['GET'])
 def eventname(variable):
@@ -144,4 +171,25 @@ def eventname(variable):
     bets = Bet.query.filter_by(event_name=variable).all()
     return render_template('event_page.html', user=current_user, eventname=variable, bets=bets, condition=False)
 
+@app.route("/client_token", methods=["GET"])
+def client_token():
+    if current_user.is_authenticated:
+        client_token = gateway.client_token.generate()  
+        return make_response(jsonify({"client_token":client_token}), 200)
+        
+    else: 
+        return make_response(jsonify({"error":str('No CLient TOkens')}), 401)
 
+@app.route("/pay", methods=["POST"])
+def pay():
+    req = request.get_json()
+    if req is None: return redirect(url_for('home'))
+    nonce_from_the_client = req["payment_method_nonce"]
+
+    result = gateway.transaction.sale({
+    "amount": "10.00",
+    "payment_method_nonce": nonce_from_the_client,
+    "options": {
+      "submit_for_settlement": True
+    }
+})

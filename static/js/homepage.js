@@ -92,23 +92,25 @@ function accept() {
     var entry = {
         bet_id: bet_id,
     };
-    //     fetch('/accept', {
-    //     method: "POST",
-    //     credentials: 'include',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(entry),
-    // })
-    // .then(response => console.log(response.data));
+    fetch('/accept', {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(entry),
+    })
+    .then(response => console.log(response.data));
 }
 
 function agree(ele) {
     var bet_id = ele.id
-    console.log(ele.id)
+    var engagor_id = ele.getAttribute('engagor_id');
     var entry = {
         bet_id: bet_id,
+        engagor_id: engagor_id,
     };
+    console.log(entry);
         fetch('/agree', {
         method: "POST",
         credentials: 'include',
@@ -119,4 +121,24 @@ function agree(ele) {
     })
     .then(response => console.log(response.data));
 }
+
+function reject(ele) {
+    var bet_id = ele.id
+    var engagor_id = ele.getAttribute('engagor_id');
+    var entry = {
+        bet_id: bet_id,
+        engagor_id: engagor_id,
+    };
+    console.log(entry);
+        fetch('/reject', {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(entry),
+    })
+    .then(response => console.log(response.data));
+}
+
 
