@@ -18,10 +18,10 @@
                 <h1>This Event Does Not Exist</h1>
                 {% else %}
             <h1 class='title' id='bet_event_name' name='{{eventname}}'>
-                Event Name: {{eventname}}
+                Event Name: {{event.name}}
             </h1>
             <h1 class='title'>
-                Creator Name: *Creator*
+                Creator Name: {{event.creator_id}}
             </h1>
             <h1 class='title'>
                 Moderator Name: *Moderator*

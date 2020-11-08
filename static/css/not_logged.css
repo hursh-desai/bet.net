@@ -10,13 +10,18 @@ body::-webkit-scrollbar{
 
 .nav-bar{
     display: flex;
+    background-color: #FFFFFF;
     justify-content: space-between;
     align-items: center;
-    margin: 0px 0px 10px 0px;
+    margin: 0px 0px 0px 0px;
     border-bottom: 2px solid #555;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
-    max-width: 100%;
+    width: 100%;
+    position: fixed; 
+    top: 0; 
+    overflow: hidden;
+    z-index: 1;
 }
 #logo{
     font-size: 4rem;
@@ -33,6 +38,7 @@ body::-webkit-scrollbar{
     font-size: 16px;
     cursor: pointer;
     border-radius: 3px;
+    margin: 0px 5px 0px 0px;
 }
 
 .main{
@@ -41,8 +47,8 @@ body::-webkit-scrollbar{
     margin: 100px 0px 0px 0px;
 }
 .bets{
-    grid-column-start: 3;
-    grid-column-end: 7;
+    grid-column-start: 4;
+    grid-column-end: 8;
 }
 
 #login-modal,#sign-up-modal {
@@ -55,12 +61,17 @@ body::-webkit-scrollbar{
     width: 100%;
     background-color: rgba(0,0,0,0.5);
 }
+section{
+    position: relative;
+    top: 10px;
+}
 
 .modal-content{
     background-color: #ffffff;
-    margin: 20% auto;
+    margin: 10% auto;
     padding: 20px;
-    width: 50%;
+    width: 40%;
+    height: 20%;
     box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),  0 7px 20px 0 rgba(0,0,0,0.17)
 }
 
@@ -72,7 +83,9 @@ body::-webkit-scrollbar{
 
 #need_to_sign_up, #already_has_account{
     color: #ccc;    
-    font-size: 30px;
+    position: relative;
+    top: 50px;
+    font-size: 1rem;
 }
 
 

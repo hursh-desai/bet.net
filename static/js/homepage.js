@@ -141,4 +141,23 @@ function reject(ele) {
     .then(response => console.log(response.data));
 }
 
+var payment_modal = document.getElementById('payment-modal');
+var connect_button = document.getElementById('connect-button');
+var closeBtn = document.getElementsByClassName('closeBtn')[0];
+
+connect_button.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
+window.addEventListener('click', clickOutside);
+
+function openModal() {
+    payment_modal.style.display = 'block';
+}
+function closeModal() {
+    payment_modal.style.display = 'none ';
+}
+function clickOutside(e) {
+    if(e.target == payment_modal){
+        closeModal();
+    }
+}
 

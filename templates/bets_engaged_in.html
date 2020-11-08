@@ -15,29 +15,31 @@
 <!--     Nav Bar     -->
         {% include 'nav.html' %}
 <!--     Main        -->
-        <div class='main'>
-            <h3>Creator</h3>
+        <main>
             <div id="creator">
+                <h3>Creator</h3>
                 {% for bet in bets_created %}
                     {% include 'bet.html' %}
                 {% endfor %}
             </div>
 
-            <h3>Engagor</h3>
+            
             <div id="engagor">
+                <h3>Engagor</h3>
             {% for bet in bets_engaged_in %}
                 {% include 'bet.html' %}
             {% endfor %}
             </div>
 
-            <h3>Moderator</h3>
+            
             <div id="moderator">
+                <h3>Moderator</h3>
                 {% for bet in events_moderated %}
                     {% include 'bet.html' %}
                 {% endfor %}
-                </div>
+            </div>
 
-        </div>
+        </main>
     </body>
     <script type=text/javascript src="{{url_for('static', filename='js/homepage.js')}}"></script>
 </html>

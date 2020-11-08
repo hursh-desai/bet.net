@@ -2,17 +2,6 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for, make_response
 from models import User,Bet,Event,Agreement
 from app import app,db
-import braintree
-
-gateway = braintree.BraintreeGateway(
-    braintree.Configuration(
-        braintree.Environment.Sandbox,
-        merchant_id="kkwts8f7djjnh2tx",
-        public_key="gb9bzstq7hpj8bc8",
-        private_key="7033e8c87ae86f037686a2b7bc0d8e3d"
-    )
-)
-
 
 # flask db migrate
 # flask db upgrade
@@ -169,27 +158,4 @@ def eventname(variable):
     event = Event.query.filter_by(name=variable).first()
     if event is None: return render_template('event_page.html', condition=True, user=current_user)
     bets = Bet.query.filter_by(event_name=variable).all()
-    return render_template('event_page.html', user=current_user, eventname=variable, bets=bets, condition=False)
-
-@app.route("/client_token", methods=["GET"])
-def client_token():
-    if current_user.is_authenticated:
-        client_token = gateway.client_token.generate()  
-        return make_response(jsonify({"client_token":client_token}), 200)
-        
-    else: 
-        return make_response(jsonify({"error":str('No CLient TOkens')}), 401)
-
-@app.route("/pay", methods=["POST"])
-def pay():
-    req = request.get_json()
-    if req is None: return redirect(url_for('home'))
-    nonce_from_the_client = req["payment_method_nonce"]
-
-    result = gateway.transaction.sale({
-    "amount": "10.00",
-    "payment_method_nonce": nonce_from_the_client,
-    "options": {
-      "submit_for_settlement": True
-    }
-})
+    return render_template('event_page.html', user=current_user, event=event, bets=bets, condition=False)

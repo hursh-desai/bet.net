@@ -14,16 +14,22 @@ body::-webkit-scrollbar{
     display: grid;
     margin: 100px 0px 0px 0px;
     grid-template-columns: repeat(10, 1fr);
+    position: relative;
 }
 .bets{
     grid-column-start: 3;
     grid-column-end: 7;
 }
 
+#heading{
+    margin: 10px 0px 0px 10px;
+}
+
 .make-bet{
     grid-column-start: 7;
     grid-column-end: 11;
     max-height: 250px;
+    min-height: 250px;
     border-radius: 3px; 
     border: 2px solid #555;
     margin: 0px 25px 0px 25px;
