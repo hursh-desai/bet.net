@@ -8,8 +8,10 @@ function add_enter(element_id, call) {
     }
 }
 
-function hover(ele) {ele.setAttribute('src', '/static/img/handshake2.png')}
-function not_hover(ele) {ele.setAttribute('src', '/static/img/handshake.png')}
+function not_hover_1(ele) {ele.setAttribute('src', '/static/img/handshake.png')}
+function hover_1(ele) {ele.setAttribute('src', '/static/img/handshake2.png')}
+function not_hover(ele) {ele.setAttribute('src', '/static/img/clap.png')}
+function hover(ele) {ele.setAttribute('src', '/static/img/clap2.png')}
 function user(ele){window.location.href = '/user/' + ele.id}
 function eventname(ele){window.location.href = '/eventname/' + ele.id}
 add_enter('bet_amount', create_bet);
@@ -49,7 +51,7 @@ function create_event() {
 }
 
 function create_bet() {
-    var event_name = document.getElementById('bet_event_name').getAttribute('name');
+    var event_name = document.getElementsByClassName('bet_event_name')[0].getAttribute('name');
     var bet_amount = document.getElementById('bet_amount').value;
     var yes = document.getElementById('yes').checked;
     var no = document.getElementById('no').checked;
@@ -84,8 +86,7 @@ function create_bet() {
     }).then(response => location.reload(true));
 }
 
-function accept() {
-    var ele = document.getElementById('accept-Btn')
+function accept(ele) {
     var bet_id = ele.getAttribute('name');
     // ele.style.display = 'none ';
     console.log(bet_id)
@@ -100,15 +101,13 @@ function accept() {
         },
         body: JSON.stringify(entry),
     })
-    .then(response => console.log(response.data));
+    .then(response => location.reload(true));
 }
 
 function agree(ele) {
-    var bet_id = ele.id
-    var engagor_id = ele.getAttribute('engagor_id');
+    var agreement_id = ele.getAttribute('id');
     var entry = {
-        bet_id: bet_id,
-        engagor_id: engagor_id,
+        agreement_id: agreement_id,
     };
     console.log(entry);
         fetch('/agree', {
@@ -119,15 +118,13 @@ function agree(ele) {
         },
         body: JSON.stringify(entry),
     })
-    .then(response => console.log(response.data));
+    .then(response => location.reload(true));
 }
 
 function reject(ele) {
-    var bet_id = ele.id
-    var engagor_id = ele.getAttribute('engagor_id');
+    var agreement_id = ele.getAttribute('id');
     var entry = {
-        bet_id: bet_id,
-        engagor_id: engagor_id,
+        agreement_id: agreement_id,
     };
     console.log(entry);
         fetch('/reject', {
@@ -138,26 +135,52 @@ function reject(ele) {
         },
         body: JSON.stringify(entry),
     })
-    .then(response => console.log(response.data));
+    .then(response => location.reload(true));
 }
 
-var payment_modal = document.getElementById('payment-modal');
-var connect_button = document.getElementById('connect-button');
-var closeBtn = document.getElementsByClassName('closeBtn')[0];
-
-connect_button.addEventListener('click', openModal);
-closeBtn.addEventListener('click', closeModal);
-window.addEventListener('click', clickOutside);
-
-function openModal() {
-    payment_modal.style.display = 'block';
-}
-function closeModal() {
-    payment_modal.style.display = 'none ';
-}
-function clickOutside(e) {
-    if(e.target == payment_modal){
-        closeModal();
+function decide(ele) {
+    var event_id = ele.getAttribute('id');
+    var decider = ele.getAttribute('decider');
+    if (decider == 'true') {
+        var decision = true;
     }
+    else if (decider == 'false') {
+        var decision = false;
+    }
+    else {var decision = null;}
+    var entry = {
+        event_id: event_id,
+        decision: decision
+    };
+    console.log(entry);
+        fetch('/decision', {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(entry),
+    })
+    .then(response => location.reload(true));
 }
+
+// var payment_modal = document.getElementById('payment-modal');
+// var connect_button = document.getElementById('connect-button');
+// var closeBtn = document.getElementsByClassName('closeBtn')[0];
+
+// connect_button.addEventListener('click', openModal);
+// closeBtn.addEventListener('click', closeModal);
+// window.addEventListener('click', clickOutside);
+
+// function openModal() {
+//     payment_modal.style.display = 'block';
+// }
+// function closeModal() {
+//     payment_modal.style.display = 'none ';
+// }
+// function clickOutside(e) {
+//     if(e.target == payment_modal){
+//         closeModal();
+//     }
+// }
 

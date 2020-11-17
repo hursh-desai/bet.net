@@ -95,40 +95,48 @@ def accept():
     bet_id = req['bet_id']
     engagor_id = current_user.id
     creator_id = Bet.query.get(bet_id).creator_id
-    print(bet_id)
-    # agreement = Agreement(creator_id=creator_id, engagor_id=engagor_id, bet_id=bet_id, final=False)
-    # db.session.add(agreement)
-    # db.session.commit()
+    agreement = Agreement(creator_id=creator_id, engagor_id=engagor_id, bet_id=bet_id, final=False)
+    db.session.add(agreement)
+    db.session.commit()
     return 'response'
 
 @app.route('/agree', methods=['POST'])
 def agree():
     req = request.get_json()
     if req is None: return redirect(url_for('home'))
-    bet_id = req['bet_id']
-    engagor_id = req['engagor_id']
-    creator_id = current_user.id
-    agreement = Agreement.query.filter_by(bet_id=bet_id, engagor_id=engagor_id, creator_id=creator_id).first()
+    agreement_id = req['agreement_id']
+    agreement = Agreement.query.filter_by(id=agreement_id).first()
     agreement.final = True
-    # db.session.commit()
+    db.session.commit()
     return 'agree'
 
 @app.route('/reject', methods=['POST'])
 def reject():
     req = request.get_json()
     if req is None: return redirect(url_for('home'))
-    bet_id = req['bet_id']
-    engagor_id = req['engagor_id']
-    creator_id = current_user.id
-    agreement = Agreement.query.filter_by(bet_id=bet_id, engagor_id=engagor_id, creator_id=creator_id).first()
-    # db.session.delete(agreement)
-    # db.session.commit()
+    agreement_id = req['agreement_id']
+    agreement = Agreement.query.filter_by(id=agreement_id).first()
+    db.session.delete(agreement)
+    db.session.commit()
     return 'reject'
+
+@app.route('/decision', methods=['POST'])
+def decision():
+    req = request.get_json()
+    if req is None: return redirect(url_for('home'))
+    event_id = req['event_id']
+    decision = req['decision']
+    event = Event.query.filter_by(id=event_id).first()
+    agreements = event.agreements.filter(Agreement.final==False).all()
+    # db.session.delete(agreements)
+    # event.decision = decision
+    # db.session.commit()
+    return 'agree'
 
 @app.route('/created_bets')
 def created_bets():
-    bets = current_user.bets_created
-    return render_template('created_bets.html', user=current_user, bets=bets)
+    bets_created = current_user.bets_created
+    return render_template('created_bets.html', user=current_user, bets_created=bets_created)
 
 @app.route('/bets_engaged_in')
 def bets_engaged_in():
@@ -150,8 +158,13 @@ def search(variable):
 @app.route('/user/<variable>', methods=['GET'])
 def user(variable):
     if variable == current_user.username:
-        return render_template('user.html', user=current_user, username=variable, owner=True)
-    return render_template('user.html', user=current_user, username=variable, owner=False)
+        bets_created = current_user.bets_created
+        bets_engaged_in = current_user.agreements_engaged_in.filter(Agreement.final==False).all()
+        agreements_finalized = current_user.agreements_in.filter(Agreement.final==True).all()
+        print(agreements_finalized)
+        return render_template('user.html', user=current_user, username=variable, bets_engaged_in=bets_engaged_in, bets_created=bets_created, agreements_finalized=agreements_finalized, owner=True)
+    else:
+        return render_template('user.html', user=current_user, username=variable, owner=False)
 
 @app.route('/eventname/<variable>', methods=['GET'])
 def eventname(variable):

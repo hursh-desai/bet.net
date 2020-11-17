@@ -1,0 +1,116 @@
+body{
+    font-family: Roboto, arial, helvetica, sans-serif;
+    margin: 0px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;   
+}
+body::-webkit-scrollbar{
+    display:none;
+}
+
+main{
+    position: absolute;
+    top: 0px; 
+    bottom: 0px;
+    width: 100%;
+}
+
+#username{
+    margin: 50px;
+}
+
+#created::-webkit-scrollbar, #engaged::-webkit-scrollbar, #finalized::-webkit-scrollbar{
+    display:none;
+}
+    #created {      
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: .5%;
+    overflow-y: scroll;
+    max-width: 500px;
+    }
+  
+    #engaged {
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: 33.75%;
+    overflow-y: scroll; 
+    max-width: 500px;
+    max-height: 100%;
+    }
+    
+    #finalized {
+    position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: 67%;
+    right: .5%;
+    overflow-y: scroll;
+    max-width: 500px;
+    }
+
+.agreement{
+    border: 2px solid #555;
+    border-radius: 3px; 
+    padding: 8px;
+    margin: 0px 0px 30px 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: #555;
+    height: 60px;
+}
+
+.user_name{
+    color: white;
+    margin: 20px 0px 0px 0px;
+}
+
+.agree-btn{
+    grid-column-start: 3;
+}
+.reject-btn{
+    grid-column-start: 4;
+}
+button{
+    padding: 5px;
+    margin: 0px 10px 0px 0px;
+}
+.eventname:hover, .username:hover, #accept-Btn:hover, #cant-accept-Btn:hover, .creator:hover, .engagor:hover{
+    color: lightblue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.final_agreement{
+    border: 2px solid #555;
+    border-radius: 3px; 
+    margin-bottom: 10px;
+    display: grid;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.eventname{
+    grid-row-start: 1;
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+    margin: 5px 0px 0px 5px;
+    overflow: hidden;
+    max-width: 40%;
+    justify-self: start;
+    align-self: start;
+}
+#amount{
+    font-size: 4rem;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+    justify-self: center;
+    align-self: center;
+    margin: 15px;
+    overflow: hidden;
+    padding: 30px;
+}

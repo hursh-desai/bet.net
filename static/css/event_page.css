@@ -9,35 +9,85 @@ body{
 body::-webkit-scrollbar{
     display:none;
 }
-.title{
-    grid-column-start: 1;
-    grid-column-end: 7;
-    margin: 0px 0px 20px 0px;
-}
 
 .main{
     display: grid;
     margin: 100px 0px 0px 0px;
     grid-template-columns: repeat(10, 1fr);
 }
+
+.title-card{
+    grid-column-start: 1;
+    grid-column-end: 7;
+    margin: 0px 0px 20px 20px;
+    border-radius: 3px; 
+    border: 2px solid #555;
+    height: 250px;
+    max-width: 900px;
+}
+.bet_event_name{
+    margin: 10px;
+    float: left;
+}
+
+
+.bet_creator-1{
+    float: left;
+    margin: 20px 0px 10px 10px;
+}
+.bet_creator-2{
+    float: left;
+    margin: 20px 10px 10px 5px;
+}
+
+.bet_moderator-1{
+    float: left;
+    margin: 20px 0px 10px 10px;
+}
+.bet_moderator-2{
+    float: left;
+    margin: 20px 10px 10px 5px;
+}
+
+.bet_creator-2:hover, .bet_moderator-2:hover{
+    color: lightblue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+#explanation{
+    position: absolute;
+    left: 35px;
+    top: 160px;
+}
+
 .bets{
     grid-column-start: 2;
     grid-column-end: 6;
 }
 
 .make-bet{
-    max-height: 250px;
+    grid-column-start: 7;
+    grid-column-end: 11;
+    height: 250px;
+    width: 500px;
+    margin: 0px 0px 0px 50px;
     border-radius: 3px; 
     border: 2px solid #555;
-    margin: 0px 25px 0px 25px;
-    position: absolute;
-    top: 14%;
-    bottom: 0;
-    left: 60%;
-    right: .5%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
+}
+
+.mod-station{
+    grid-column-start: 8;
+    grid-column-end: 11;
+    height: 250px;
+    width: 270px;
+    margin: 0px 0px 0px 50px;
+    border-radius: 3px; 
+    border: 2px solid #555;
 }
 
 .label{
@@ -67,7 +117,7 @@ form{
 
 #error{ color: red }
 
-#create{
+.create{
     grid-column-start: 2;
     grid-row-start: 2;
     max-width: 150px;

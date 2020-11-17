@@ -15,30 +15,31 @@
 <!--    Under the Nav              -->
         <div class='main'>
                 {% if condition %}
-                <h1>This Event Does Not Exist</h1>
+                <h1 style='position: absolute;top: 50%;left: 40%;'>This Event Does Not Exist</h1>
                 {% else %}
-            <h1 class='title' id='bet_event_name' name='{{eventname}}'>
-                Event Name: {{event.name}}
-            </h1>
-            <h1 class='title'>
-                Creator Name: {{event.creator_id}}
-            </h1>
-            <h1 class='title'>
-                Moderator Name: *Moderator*
-            </h1>
-            <h1 class='title'>
-                What Does Yes Mean?: .....
-            </h1>
-            <h1 class='title'>
-                What Does No Mean?: .....
-            </h1>
-<!--    Bets              -->
-        <div class="bets">
-            {% for bet in bets %}
-                {% include 'bet.html' %}
-            {% endfor %}
-        </div>
+<!--    Title Card             -->
+            <div class='title-card'>
+                <h1 class='bet_event_name' name='{{event.name}}'>
+                    {{event.name}}
+                </h1>
+                <span class='bet_creator-1'>
+                    ~ Created By:
+                </span>
+                <span class='bet_creator-2' onclick="user(this);" id='{{event.creator.username}} '>
+                    {{event.creator.username}} 
+                </span>
+                <span class='bet_moderator-1'>
+                    ~ Moderated By:
+                </span>
+                <span class='bet_moderator-2' onclick="user(this);" id='{{event.moderator.username}}'>
+                    {{event.moderator.username}}
+                </span>
+                <span id='explanation'>
+                    explanation of event & what a bet for YES and NO means
+                </span>
+            </div>
 <!--    Create a Bet              -->
+            {% if (event.decision == None) %}
             <div class="make-bet">
                 <span class="label bet_amount">Bet Amount</span>
                 <input type=number class="input bet_amount" id=bet_amount placeholder="&nbsp;" autocomplete="off">
@@ -51,8 +52,23 @@
                     <label for="female">No</label><br>
                 </form>
                         
-                <button id=create onclick="create_bet();">Create</button>
+                <button class=create id='{{ event.id }}' onclick="create_bet();">Create</button>
             </div>
+            {% endif %}
+<!--    Bets              -->
+            <div class="bets">
+                {% for bet in bets %}
+                    {% include 'bet.html' %}
+                {% endfor %}
+            </div>
+<!--    Moderator Yes or No              -->
+            {% if (current_user.id == event.moderator.id) and (event.decision == None) %}
+                <div class="mod-station">  
+                    <h1>Moderator Station</h1>
+                    <button onclick="decide(this);" decider='true' id='{{ event.id }}'>Yes</button>
+                    <button onclick="decide(this);" decider='false' id='{{ event.id }}'>No</button>
+                </div>
+            {% endif %}
         </div>
     </body>
 {% endif %}

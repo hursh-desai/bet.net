@@ -47,12 +47,18 @@
     overflow: hidden;
 }
 #y_n{
-    grid-row-start: 1;
+    font-size: 1rem;
+    grid-row-start: 2;
+    grid-row-end: 4;
     grid-column-start: 1; 
     grid-column-end: 3; 
-    margin: 10px 0px 0px 100px;
+    justify-self: center;
+    align-self: start;
+    margin: 65px;
+    overflow: hidden;
+    padding: 30px;
 }
-.eventname:hover, .username:hover, #accept-Btn:hover, #cant-accept-Btn:hover{
+.eventname:hover, .username:hover{
     color: lightblue;
     text-decoration: none;
     cursor: pointer;
@@ -63,17 +69,22 @@
     grid-column-start: 3;
     align-self: center;
     justify-self: center;
-    width: 98px;
+    width: 95px;
     height: 78px;
     margin: 0px;
     text-align: center;
 }
 
-.lit{
-    background:lightblue;
+.tracker{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 4;
+    align-self: start;
+    justify-self: end;
+    display: grid;
 }
 
-#first-stage{
+.first-stage{
     grid-row-start: 1;
     grid-row-end: 2;
     grid-column-start: 4;
@@ -85,7 +96,7 @@
     border: 1px solid gray; 
     border-radius: 2px; 
 }
-#second-stage{
+.second-stage{
     grid-row-start: 1;
     grid-row-end: 2;
     grid-column-start: 4;

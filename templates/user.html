@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bet.css') }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 <title>Bet</title>
@@ -13,15 +14,62 @@
 <!--     Nav Bar     -->
         {% include 'nav.html' %}
 <!--    Under the Nav              -->
-        <div class='main'>
+        <main>
 <!--    Bets              -->
-            <div class="profile">
-            {{username}}
-            </div>
+            <h3 id='username'>{{username}}</h3>
             {% if owner %}
-            <button id='connect-button'>Connect Money Source</button>
+            <!-- <button id='connect-button'>Connect Money Source</button> -->
+            <div id="created">
+                <h3>Bets Created</h3>
+                {% for bet in bets_created %}
+                {% include 'bet.html' %}
+                {% for agreement in bet.agreements %}
+                    {% if not agreement.final %}
+                        <div class="agreement">
+                            <span class="user_name" onclick="user(this);" id='{{ agreement.engagor.username }}'> {{ agreement.engagor.username }}</span>
+                            <button class='agree-btn' engagor_id='{{ agreement.engagor.id }}' onclick="agree(this);" id='{{ agreement.id }}'>Agree</button>
+                            <button class='reject-btn' engagor_id='{{ agreement.engagor.id }}' onclick="reject(this);" id='{{ agreement.id }}'>Reject</button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </div>
+
+            
+            <div id="engaged">
+                <h3>Waiting For Response</h3>
+            {% for agreement in bets_engaged_in %}
+                {% set bet = agreement.bet %}
+                {% include 'bet.html' %}
+            {% endfor %}
+            </div>
+
+            
+            <div id="finalized">
+                <h3>Bets Finalized</h3>
+                {% for agreement in agreements_finalized %}
+                <div class="final_agreement">
+                    <span class="eventname" onclick="eventname(this);" id='{{agreement.bet.event_name}}'>{{agreement.bet.event_name}}</span>
+
+                    <h3 id="amount">{{agreement.bet.bet_amount}}</h3>
+
+                    <span class="creator" onclick="user(this);" id='{{agreement.creator.username}}'>{{agreement.creator.username}}</span>
+                    <span class="engagor" onclick="user(this);" id='{{agreement.engagor.username}}'>{{agreement.engagor.username}}</span>
+
+                    {% if agreement.bet.y_n %}
+                    <h3 id="creator_position">Yes</h3>
+                    <h3 id="engagor_position">No</h3>
+                    {% else %}
+                    <h3 id="creator_position">No</h3>
+                    <h3 id="engagor_position">Yes</h3>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h3 id='username'>{{username}}</h3>
             {% endif %}
-        </div>
+        </main>
         {% include 'payment.html' %}
     </body>
 <script type=text/javascript src="{{url_for('static', filename='js/homepage.js')}}"></script>
