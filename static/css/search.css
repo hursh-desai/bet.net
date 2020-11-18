@@ -1,0 +1,37 @@
+body{
+    font-family: Roboto, arial, helvetica, sans-serif;
+    margin: 0px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    
+}
+
+body::-webkit-scrollbar{
+    display:none;
+}
+
+.main{
+    display: grid;
+    margin: 100px 0px 0px 0px;
+    grid-template-columns: repeat(10, 1fr);
+    position: relative;
+}
+.bets{
+    position: relative;
+    grid-column-start: 3;
+    grid-column-end: 7;
+}
+
+.event_name{
+    font-size: 7rem;
+    grid-column-start: 1;
+    grid-column-end: 10;
+    padding: 0px;
+    margin: 0px;
+}
+
+.event_name:hover{
+    color: lightblue;
+    text-decoration: none;
+    cursor: pointer;
+}

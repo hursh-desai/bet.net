@@ -128,32 +128,16 @@ def decision():
     decision = req['decision']
     event = Event.query.filter_by(id=event_id).first()
     agreements = event.agreements.filter(Agreement.final==False).all()
-    # db.session.delete(agreements)
-    # event.decision = decision
-    # db.session.commit()
+    db.session.delete(agreements)
+    event.decision = decision
+    db.session.commit()
     return 'agree'
-
-@app.route('/created_bets')
-def created_bets():
-    bets_created = current_user.bets_created
-    return render_template('created_bets.html', user=current_user, bets_created=bets_created)
-
-@app.route('/bets_engaged_in')
-def bets_engaged_in():
-    bets_engaged_in = current_user.bets_engaged_in
-    bets_created = current_user.bets_created
-    events_moderated = current_user.events_moderated
-    return render_template('bets_engaged_in.html', user=current_user, bets_engaged_in=bets_engaged_in, bets_created=bets_created)
-
-@app.route('/private_bets')
-def private_bets():
-    return render_template('private_bets.html', user=current_user)
 
 @app.route('/search/<variable>', methods=['GET'])
 def search(variable):
     search = variable.replace(" ", " & ")
-    bets = Bet.query.filter(Bet.__ts_vector__.match(search, postgresql_regconfig='english')).all()
-    return render_template('search.html', user=current_user, bets=bets)
+    events = Event.query.filter(Event.__ts_vector__.match(search, postgresql_regconfig='english')).all()
+    return render_template('search.html', user=current_user, events=events)
 
 @app.route('/user/<variable>', methods=['GET'])
 def user(variable):
@@ -161,8 +145,7 @@ def user(variable):
         bets_created = current_user.bets_created
         bets_engaged_in = current_user.agreements_engaged_in.filter(Agreement.final==False).all()
         agreements_finalized = current_user.agreements_in.filter(Agreement.final==True).all()
-        print(agreements_finalized)
-        return render_template('user.html', user=current_user, username=variable, bets_engaged_in=bets_engaged_in, bets_created=bets_created, agreements_finalized=agreements_finalized, owner=True)
+        return render_template('user.html', user=current_user, username=variable, bets_created=bets_created, bets_engaged_in=bets_engaged_in, agreements_finalized=agreements_finalized, owner=True)
     else:
         return render_template('user.html', user=current_user, username=variable, owner=False)
 

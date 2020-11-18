@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css') }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 <title>Bet</title>
@@ -15,11 +15,14 @@
 <!--    Under the Nav              -->
         <div class='main'>
 <!--    Bets              -->
-            <div class="bets">
-                {% for bet in bets %}
-                    {% include 'bet.html' %}
+                {% for event in events %}
+                <span class="event_name" onclick="eventname(this);" id='{{event.name}}'>{{event.name}}</span>
+                <div class="bets">
+                        {% for bet in event.bets %}
+                            {% include 'bet.html' %}
+                        {% endfor %}
+                </div>
                 {% endfor %}
-            </div>
         </div>
     </body>
     <script type=text/javascript src="{{url_for('static', filename='js/homepage.js')}}"></script>

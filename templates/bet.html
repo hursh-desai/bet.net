@@ -2,7 +2,7 @@
 <div class="bet">
 
     <span class="eventname" onclick="eventname(this);" id='{{ bet.event_name }}'>{{ bet.event_name }}</span>
-    <h3 id="amount">{{ bet.bet_amount }}</h3>
+    <h3 id="amount">{{ bet.amount }}</h3>
 
     {% if bet.y_n %}
     <h3 id="y_n">Yes</h3>
@@ -15,24 +15,19 @@
         <span class="first-stage"></span>
     </div>
     
-
     {% if bet is in current_user.bets_created or bet is in current_user.bets_engaged_in %}
         <script>document.getElementById('{{ bet.id }}').getElementsByClassName('first-stage')[0].style.backgroundColor = 'lightblue';</script>
     {% endif %}
 
     {% if user is not defined %}
-        <button onclick="openModal();" id='cant-accept-Btn'>I'll Take You Up</button>
-    {% elif current_user.username == bet.creator.username %}
-        <h3 id="same-person">Same Person</h3>
+        <img onclick="openModal();" class='engage' onmouseover="hover(this)" onmouseout="not_hover(this)" 
+        src="{{ url_for('static', filename='img/handshake.png') }}"></img>
+    {% elif current_user == bet.creator %}
+        <h3 class="engage">Same Person</h3>
     {% elif bet is in current_user.bets_engaged_in %}
-        {% if current_user.id != bet.creator.id %}
-            <h3 id="same-person">Waiting on Creator to Respond</h3>
-        {% else %}
-            <img onclick="agree(this);" id='already-engaged' name='{{ bet.id }}' onmouseover="hover_1(this)" onmouseout="not_hover_1(this)"
-            src="{{ url_for('static', filename='img/handshake.png') }}"></img>
-        {% endif %}
+        <h3 class="engage">Already Engaged</h3>
     {% else %}
-        <img onclick="accept(this);" id='accept-Btn' name='{{ bet.id }}' onmouseover="hover(this)" onmouseout="not_hover(this)" 
-        src="{{ url_for('static', filename='img/clap.png') }}"></img>
+        <img onclick="accept(this);" class='engage' name='{{ bet.id }}' onmouseover="hover(this)" onmouseout="not_hover(this)" 
+        src="{{ url_for('static', filename='img/handshake.png') }}"></img>
     {% endif %}
 </div>

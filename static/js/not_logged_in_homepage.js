@@ -11,6 +11,9 @@ add_enter('password', login);
 add_enter('new_username', sign_up);
 add_enter('new_password', sign_up);
 
+function not_hover(ele) {ele.setAttribute('src', '/static/img/handshake.png')}
+function hover(ele) {ele.setAttribute('src', '/static/img/handshake2.png')}
+
 function login() {
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;

@@ -16,7 +16,7 @@ class Bet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_name = db.Column(db.String(30), db.ForeignKey('events.name'))
-    bet_amount = db.Column(db.Integer)
+    amount = db.Column(db.Integer)
     y_n = db.Column(db.Boolean())
     date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
     __ts_vector__ = create_tsvector(
@@ -34,6 +34,12 @@ class Event(db.Model):
     access = db.Column(db.Boolean())
     decision = db.Column(db.Boolean())
     date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
+    bets = db.relationship('Bet', backref='event')
+    __ts_vector__ = create_tsvector(
+        cast(func.coalesce(name, ''), postgresql.TEXT)
+    )
+
+    Index('name_tsv', __ts_vector__, postgresql_using='gin')
 
 class Agreement(db.Model):
     __tablename__ = 'agreements'
@@ -45,12 +51,11 @@ class Agreement(db.Model):
     event = db.relationship(
         'Event', 
         secondary='bets',
-        primaryjoin=(Bet.id == bet_id),
-        secondaryjoin=(Event.name == Bet.event_name),
-        backref=db.backref('agreements', lazy='dynamic'), 
-        lazy='dynamic',
+        backref=db.backref('agreements'), 
+        uselist=False
         )
-    bet = db.relationship('Bet', backref='agreements')
+    bet = db.relationship('Bet', backref='agreements', lazy='joined')
+    date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -60,6 +65,7 @@ class User(UserMixin, db.Model):
     bets_created = db.relationship('Bet', backref='creator')
     events_created = db.relationship('Event', primaryjoin=(Event.creator_id == id), backref='creator')
     events_moderated = db.relationship('Event', primaryjoin=(Event.moderator_id == id),  backref='moderator')
+    date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
     
     bets_engaged_in = db.relationship(
         'Bet', 

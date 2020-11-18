@@ -8,10 +8,8 @@ function add_enter(element_id, call) {
     }
 }
 
-function not_hover_1(ele) {ele.setAttribute('src', '/static/img/handshake.png')}
-function hover_1(ele) {ele.setAttribute('src', '/static/img/handshake2.png')}
-function not_hover(ele) {ele.setAttribute('src', '/static/img/clap.png')}
-function hover(ele) {ele.setAttribute('src', '/static/img/clap2.png')}
+function not_hover(ele) {ele.setAttribute('src', '/static/img/handshake.png')}
+function hover(ele) {ele.setAttribute('src', '/static/img/handshake2.png')}
 function user(ele){window.location.href = '/user/' + ele.id}
 function eventname(ele){window.location.href = '/eventname/' + ele.id}
 add_enter('bet_amount', create_bet);
@@ -163,24 +161,4 @@ function decide(ele) {
     })
     .then(response => location.reload(true));
 }
-
-// var payment_modal = document.getElementById('payment-modal');
-// var connect_button = document.getElementById('connect-button');
-// var closeBtn = document.getElementsByClassName('closeBtn')[0];
-
-// connect_button.addEventListener('click', openModal);
-// closeBtn.addEventListener('click', closeModal);
-// window.addEventListener('click', clickOutside);
-
-// function openModal() {
-//     payment_modal.style.display = 'block';
-// }
-// function closeModal() {
-//     payment_modal.style.display = 'none ';
-// }
-// function clickOutside(e) {
-//     if(e.target == payment_modal){
-//         closeModal();
-//     }
-// }
 

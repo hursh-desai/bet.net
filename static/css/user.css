@@ -15,10 +15,6 @@ main{
     width: 100%;
 }
 
-#username{
-    margin: 50px;
-}
-
 #created::-webkit-scrollbar, #engaged::-webkit-scrollbar, #finalized::-webkit-scrollbar{
     display:none;
 }
@@ -62,6 +58,10 @@ main{
     height: 60px;
 }
 
+#username{
+    margin: 50px;
+}
+
 .user_name{
     color: white;
     margin: 20px 0px 0px 0px;
@@ -77,7 +77,7 @@ button{
     padding: 5px;
     margin: 0px 10px 0px 0px;
 }
-.eventname:hover, .username:hover, #accept-Btn:hover, #cant-accept-Btn:hover, .creator:hover, .engagor:hover{
+.agreement_eventname :hover, .username:hover, #accept-Btn:hover, #cant-accept-Btn:hover, .creator:hover, .engagor:hover{
     color: lightblue;
     text-decoration: none;
     cursor: pointer;
@@ -92,25 +92,53 @@ button{
     grid-template-columns: repeat(4, 1fr);
 }
 
-.eventname{
+.agreement_eventname{
     grid-row-start: 1;
-    grid-column-start: 1; 
-    grid-column-end: 3; 
+    grid-column-start: 2; 
+    grid-column-end: 4; 
+    justify-self: center;
+    align-self: center;
     margin: 5px 0px 0px 5px;
     overflow: hidden;
     max-width: 40%;
-    justify-self: start;
-    align-self: start;
 }
-#amount{
+#agreement_amount{
     font-size: 4rem;
     grid-row-start: 2;
     grid-row-end: 4;
-    grid-column-start: 1; 
-    grid-column-end: 3; 
+    grid-column-start: 2; 
+    grid-column-end: 4; 
     justify-self: center;
     align-self: center;
     margin: 15px;
     overflow: hidden;
     padding: 30px;
+}
+
+.creator{
+    grid-column-start: 1; 
+    grid-row-start: 2;
+    justify-self: end;
+    align-self: start;
+}
+
+.engagor{
+    grid-column-start: 4; 
+    grid-row-start: 2;
+    justify-self: start;
+    align-self: start;
+}
+
+#creator_position{
+    grid-column-start: 1; 
+    grid-row-start: 2;
+    justify-self: end;
+    align-self: start;
+}
+
+#engagor_position{
+    grid-column-start: 4; 
+    grid-row-start: 2;
+    justify-self: start;
+    align-self: start;
 }

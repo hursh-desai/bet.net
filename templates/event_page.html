@@ -57,7 +57,7 @@
             {% endif %}
 <!--    Bets              -->
             <div class="bets">
-                {% for bet in bets %}
+                {% for bet in event.bets %}
                     {% include 'bet.html' %}
                 {% endfor %}
             </div>
