@@ -40,20 +40,37 @@
             </div>
 <!--    Create a Bet              -->
             {% if (event.decision == None) %}
-            <div class="make-bet">
-                <span class="label bet_amount">Bet Amount</span>
-                <input type=number class="input bet_amount" id=bet_amount placeholder="&nbsp;" autocomplete="off">
-                <div id="error"></div>
+                {% if (event.moderator_id == current_user.id) %}
+                {% else %}
+                    <div class="make-bet">
+                        <span class="label bet_amount">Bet Amount</span>
+                        <input type=number class="input bet_amount" id=bet_amount placeholder="&nbsp;" autocomplete="off">
+                        <div id="error"></div>
 
-                <form>
-                    <input type="radio" id="yes" name="y_n" value="Yes">
-                    <label for="male">Yes</label><br>
-                    <input type="radio" id="no" name="y_n" value="No">
-                    <label for="female">No</label><br>
-                </form>
-                        
-                <button class=create id='{{ event.id }}' onclick="create_bet();">Create</button>
-            </div>
+                        <form>
+                            <input type="radio" id="yes" name="y_n" value="Yes">
+                            <label for="male">Yes</label><br>
+                            <input type="radio" id="no" name="y_n" value="No">
+                            <label for="female">No</label><br>
+                        </form>
+                                
+                        <button class=create id='{{ event.id }}' onclick="create_bet();">Create</button>
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if (event.decision == True) %}
+                <div class="make-bet">
+                    <p>
+                        The Decision Has Been Made As: Yes
+                    </p>
+                </div>
+                {% else %}  
+                <div class="make-bet">
+                    <p>
+                        The Decision Has Been Made As: No
+                    </p>
+                </div>
+                {% endif %}
             {% endif %}
 <!--    Bets              -->
             <div class="bets">

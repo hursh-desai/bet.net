@@ -1,0 +1,32 @@
+<div class="final_agreement" id='{{ agreement.id }}'>
+    {% if (current_user == agreement.creator) %}
+        {% if (agreement.event.decision == None) %}
+        {% elif (agreement.event.decision == agreement.bet.y_n) %}
+            <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightgreen'</script>
+        {% elif (agreement.event.decision != agreement.bet.y_n) %}
+            <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightcoral'</script>
+        {% endif %}
+    {% elif (current_user == agreement.engagor) %}
+        {% if (agreement.event.decision == None) %}
+        {% elif (agreement.event.decision == agreement.bet.y_n) %}
+        <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightcoral'</script>   
+        {% elif (agreement.event.decision != agreement.bet.y_n) %}
+        <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightgreen'</script>
+        {% endif %}
+    {% else %}
+    {% endif %}
+    <span class="agreement_eventname" onclick="eventname(this);" id='{{agreement.bet.event_name}}'>{{agreement.bet.event_name}}</span>
+
+    <h3 id="agreement_amount">{{agreement.bet.amount}}</h3>
+
+    <span class="creator" onclick="user(this);" id='{{agreement.creator.username}}'>{{agreement.creator.username}}</span>
+    <span class="engagor" onclick="user(this);" id='{{agreement.engagor.username}}'>{{agreement.engagor.username}}</span>
+
+    {% if agreement.bet.y_n %}
+    <h3 id="creator_position">Yes</h3>
+    <h3 id="engagor_position">No</h3>
+    {% else %}
+    <h3 id="creator_position">No</h3>
+    <h3 id="engagor_position">Yes</h3>
+    {% endif %}
+</div>

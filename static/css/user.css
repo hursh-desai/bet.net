@@ -77,7 +77,7 @@ button{
     padding: 5px;
     margin: 0px 10px 0px 0px;
 }
-.agreement_eventname :hover, .username:hover, #accept-Btn:hover, #cant-accept-Btn:hover, .creator:hover, .engagor:hover{
+.agreement_eventname:hover, .username:hover, #accept-Btn:hover, #cant-accept-Btn:hover, .creator:hover, .engagor:hover{
     color: lightblue;
     text-decoration: none;
     cursor: pointer;

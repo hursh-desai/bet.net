@@ -83,7 +83,7 @@ def create_bet():
     event_name = req['event_name']
     y_n = req['y_n']
     creator_id = current_user.id
-    bet = Bet(creator_id=creator_id, event_name=event_name, bet_amount=bet_amount, y_n=y_n)
+    bet = Bet(creator_id=creator_id, event_name=event_name, amount = bet_amount, y_n=y_n)
     db.session.add(bet)
     db.session.commit()
     return make_response(jsonify({"mod_name":str(y_n)}), 200)
@@ -128,6 +128,7 @@ def decision():
     decision = req['decision']
     event = Event.query.filter_by(id=event_id).first()
     agreements = event.agreements.filter(Agreement.final==False).all()
+    print(agreements)
     db.session.delete(agreements)
     event.decision = decision
     db.session.commit()
@@ -147,7 +148,11 @@ def user(variable):
         agreements_finalized = current_user.agreements_in.filter(Agreement.final==True).all()
         return render_template('user.html', user=current_user, username=variable, bets_created=bets_created, bets_engaged_in=bets_engaged_in, agreements_finalized=agreements_finalized, owner=True)
     else:
-        return render_template('user.html', user=current_user, username=variable, owner=False)
+        user = User.query.filter_by(username=variable).first()
+        bets_created = user.bets_created
+        bets_engaged_in = user.agreements_engaged_in.filter(Agreement.final==False).all()
+        agreements_finalized = user.agreements_in.filter(Agreement.final==True).all()
+        return render_template('user.html', user=user, username=variable, bets_created=bets_created, bets_engaged_in=bets_engaged_in, agreements_finalized=agreements_finalized, owner=False)
 
 @app.route('/eventname/<variable>', methods=['GET'])
 def eventname(variable):

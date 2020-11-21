@@ -20,17 +20,17 @@
             <div id="created">
                 <h3>Bets Created</h3>
                 {% for bet in bets_created %}
-                {% include 'bet.html' %}
-                {% for agreement in bet.agreements %}
-                    {% if not agreement.final %}
-                        <div class="agreement">
-                            <span class="user_name" onclick="user(this);" id='{{ agreement.engagor.username }}'> {{ agreement.engagor.username }}</span>
-                            <button class='agree-btn' engagor_id='{{ agreement.engagor.id }}' onclick="agree(this);" id='{{ agreement.id }}'>Agree</button>
-                            <button class='reject-btn' engagor_id='{{ agreement.engagor.id }}' onclick="reject(this);" id='{{ agreement.id }}'>Reject</button>
-                        </div>
-                    {% endif %}
+                    {% include 'bet.html' %}
+                    {% for agreement in bet.agreements %}
+                        {% if not agreement.final %}
+                            <div class="agreement">
+                                <span class="user_name" onclick="user(this);" id='{{ agreement.engagor.username }}'> {{ agreement.engagor.username }}</span>
+                                <button class='agree-btn' engagor_id='{{ agreement.engagor.id }}' onclick="agree(this);" id='{{ agreement.id }}'>Agree</button>
+                                <button class='reject-btn' engagor_id='{{ agreement.engagor.id }}' onclick="reject(this);" id='{{ agreement.id }}'>Reject</button>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
             </div>
             
             <div id="engaged">
@@ -44,42 +44,33 @@
             <div id="finalized">
                 <h3>Bets Finalized</h3>
                 {% for agreement in agreements_finalized %}
-                <div class="final_agreement" id='{{ agreement.id }}'>
-                    {% if (current_user == agreement.creator) %}
-                        {% if (agreement.event.decision == None) %}
-                        {% elif (agreement.event.decision == agreement.bet.y_n) %}
-                            <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightgreen'</script>
-                        {% elif (agreement.event.decision != agreement.bet.y_n) %}
-                            <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightcoral'</script>
-                        {% endif %}
-                    {% elif (current_user == agreement.engagor) %}
-                        {% if (agreement.event.decision == None) %}
-                        {% elif (agreement.event.decision == agreement.bet.y_n) %}
-                        <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightcoral'</script>   
-                        {% elif (agreement.event.decision != agreement.bet.y_n) %}
-                        <script>document.getElementById('{{ agreement.id }}').style.backgroundColor = 'lightgreen'</script>
-                        {% endif %}
-                    {% else %}
-                    {% endif %}
-                    <span class="agreement_eventname" onclick="eventname(this);" id='{{agreement.bet.event_name}}'>{{agreement.bet.event_name}}</span>
-
-                    <h3 id="agreement_amount">{{agreement.bet.amount}}</h3>
-
-                    <span class="creator" onclick="user(this);" id='{{agreement.creator.username}}'>{{agreement.creator.username}}</span>
-                    <span class="engagor" onclick="user(this);" id='{{agreement.engagor.username}}'>{{agreement.engagor.username}}</span>
-
-                    {% if agreement.bet.y_n %}
-                    <h3 id="creator_position">Yes</h3>
-                    <h3 id="engagor_position">No</h3>
-                    {% else %}
-                    <h3 id="creator_position">No</h3>
-                    <h3 id="engagor_position">Yes</h3>
-                    {% endif %}
-                </div>
+                {% include 'bet_finalized.html' %}
                 {% endfor %}
             </div>
+
             {% else %}
-            <h3 id='username'>{{username}}</h3>
+            
+            <div id="created">
+                <h3>Bets Created</h3>
+                {% for bet in bets_created %}
+                {% include 'bet.html' %}
+                {% endfor %}
+            </div>
+            
+            <div id="engaged">
+                <h3>Waiting For Response</h3>
+            {% for agreement in bets_engaged_in %}
+                {% set bet = agreement.bet %}
+                {% include 'bet.html' %}
+            {% endfor %}
+            </div>
+            
+            <div id="finalized">
+                <h3>Bets Finalized</h3>
+                {% for agreement in agreements_finalized %}
+                {% include 'bet_finalized.html' %}
+                {% endfor %}
+            </div>
             {% endif %}
         </main>
     </body>

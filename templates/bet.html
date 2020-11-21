@@ -26,6 +26,8 @@
         <h3 class="engage">Same Person</h3>
     {% elif bet is in current_user.bets_engaged_in %}
         <h3 class="engage">Already Engaged</h3>
+    {% elif bet.event.moderator_id == current_user.id %}
+        <h3 class="engage">Moderator of This Event</h3>
     {% else %}
         <img onclick="accept(this);" class='engage' name='{{ bet.id }}' onmouseover="hover(this)" onmouseout="not_hover(this)" 
         src="{{ url_for('static', filename='img/handshake.png') }}"></img>

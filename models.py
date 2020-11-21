@@ -51,8 +51,10 @@ class Agreement(db.Model):
     event = db.relationship(
         'Event', 
         secondary='bets',
-        backref=db.backref('agreements'), 
-        uselist=False
+        backref=db.backref('agreements', lazy='dynamic'), 
+        uselist=False,
+        viewonly=True,
+        sync_backref=False
         )
     bet = db.relationship('Bet', backref='agreements', lazy='joined')
     date = db.Column(db.DateTime(timezone=True), index=True, default=datetime.datetime.utcnow)
