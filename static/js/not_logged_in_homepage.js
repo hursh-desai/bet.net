@@ -21,7 +21,7 @@ function login() {
         username: username,
         password: password
     };
-    fetch('http://localhost:5000/login', {
+    fetch('/login', {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -39,7 +39,7 @@ function sign_up() {
         username: username,
         password: password
     };
-    fetch('http://localhost:5000/sign_up', {
+    fetch('/sign_up', {
         method: "POST",
         credentials: 'include',
         headers: {
