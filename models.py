@@ -5,6 +5,7 @@ from sqlalchemy import Index,func,cast
 from sqlalchemy.dialects import postgresql
 import datetime
 
+
 def create_tsvector(*args):
     exp = args[0]
     for e in args[1:]:

@@ -1,6 +1,7 @@
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for, make_response
 from models import User,Bet,Event,Agreement
+from commands import create_tables
 from app import app,db
 
 # flask db migrate
@@ -8,6 +9,8 @@ from app import app,db
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+app.cli.add_command(create_tables)
 
 @login_manager.user_loader
 def load_user(user_id):
