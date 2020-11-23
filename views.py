@@ -22,6 +22,11 @@ def sign_up():
     if req is None: return redirect(url_for('home'))
     username = req['username']
     password = req['password']
+    user_exists = User.query.filter_by(username=username).first()
+    if user_exists is not None:
+        print(something)
+        res = make_response(jsonify({"message": False}), 401)
+        return res
     user = User(username=username)
     user.set_password(password)
     db.session.add(user)

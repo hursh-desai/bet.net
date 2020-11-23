@@ -39,6 +39,7 @@ function sign_up() {
         username: username,
         password: password
     };
+    console.log(entry)
     fetch('/sign_up', {
         method: "POST",
         credentials: 'include',
@@ -47,7 +48,13 @@ function sign_up() {
         },
         body: JSON.stringify(entry),
     })
-    .then(response => location.reload(true));
+    .then(function(response) {
+        if (!response.ok) {
+            error.innerHTML = 'This Username Has Already Been Taken'
+            throw Error(response.statusText);
+        }
+        return response;
+    }).then(response => location.reload(true));
 }
 
 var login_modal = document.getElementById('login-modal');
