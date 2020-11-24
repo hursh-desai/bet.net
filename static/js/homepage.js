@@ -16,18 +16,16 @@ add_enter('bet_amount', create_bet);
 add_enter('event_name', create_event);
 add_enter('mod_name', create_event);
 
-function create_event() {
+async function create_event() {
     error.innerHTML = ''
-    var event_name_input = document.getElementById('event_name')
-    var mod_name_input = document.getElementById('mod_name')
-
-    var event_name = event_name_input.value;
-    var mod_name = mod_name_input.value;
+    var event_name = document.getElementById('event_name').value;
+    var mod_name = document.getElementById('mod_name').value;
     var entry = {
         event_name: event_name,
         mod_name: mod_name
     };
-    fetch('/create_event', {
+
+    response = await fetch('/create_event', {
         method: "POST",
         redirect: 'follow',
         credentials: 'include',
@@ -36,19 +34,16 @@ function create_event() {
             'Accept': 'application/json'
         },
         body: JSON.stringify(entry),
-    })
-    .then(function(response) {
-        if (!response.ok) {
-            error.innerHTML = 'Incorrect event or moderator name'
-            throw Error(response.statusText);
-        }
-        return response;
-    }).then(function(response){
-        window.location.href = '/eventname/' + event_name;
     });
+    json = await response.json();
+
+    if (!response.ok) {
+        error.innerHTML = json.error
+    }
+    else {window.location.href = '/eventname/' + event_name;}
 }
 
-function create_bet() {
+async function create_bet() {
     var event_name = document.getElementsByClassName('bet_event_name')[0].getAttribute('name');
     var bet_amount = document.getElementById('bet_amount').value;
     var yes = document.getElementById('yes').checked;
@@ -65,7 +60,7 @@ function create_bet() {
         bet_amount: bet_amount,
         y_n: y_n,
     };
-    fetch('/create_bet', {
+    response = fetch('/create_bet', {
         method: "POST",
         redirect: 'follow',
         credentials: 'include',
@@ -75,13 +70,11 @@ function create_bet() {
         },
         body: JSON.stringify(entry),
     })
-    .then(function(response) {
-        if (!response.ok) {
-            error.innerHTML = 'Pick Either Yes or No'
-            throw Error(response.statusText);
-        }
-        return response;
-    }).then(response => location.reload(true));
+    json = await response.json();
+    if (!response.ok) {
+        error.innerHTML = json.error
+    }
+    else{location.reload(true);}
 }
 
 function accept(ele) {
@@ -159,7 +152,6 @@ async function decide(ele) {
         body: JSON.stringify(entry),
     });
     json = await response.json();
-    console.log(json);
     location.reload(true);
 }
 

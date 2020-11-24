@@ -67,10 +67,12 @@ def create_event():
     if req is None: return redirect(url_for('home'))
     event_name = req['event_name']
     moderator_name = req['mod_name']
+    print(event_name)
+    print(moderator_name)
     creator_id = current_user.id
     moderator = User.query.filter_by(username=moderator_name).first()
-    if event_name==None:
-        return make_response(jsonify({"error":str('Invalid Event Name')}), 401) 
+    if event_name=='':
+        return make_response(jsonify({"error":str('Enter an Event Name')}), 401) 
     elif moderator==None:
         return make_response(jsonify({"error":str('Invalid Moderator Name')}), 401) 
     else:
@@ -131,28 +133,14 @@ def reject():
 def decision():
     req = request.get_json()
     if req is None: return redirect(url_for('home'))
-    try:
-        event_id = req['event_id']
-        decision = req['decision']
-    except:
-        return make_response(jsonify({"mod_name":'first'}), 200)
-    try:
-        event = Event.query.filter_by(id=event_id).first()
-        agreements = event.agreements.filter(Agreement.final==False).all()
-    except:
-        return make_response(jsonify({"mod_name":'second'}), 200)
-    try:
-        event.decision = decision 
-    except:
-        return make_response(jsonify({"mod_name":'third',"somethinge":len(agreements), "couldve":event.decision}), 200)
-    try:
-        db.session.delete(agreements)  
-    except:
-        return make_response(jsonify({"mod_name":'fourth',"somethinge":len(agreements), "couldve":event.decision}), 200)
-    try:
-        db.session.commit()
-    except:
-        return make_response(jsonify({"mod_name":'fifth'}), 200)
+    event_id = req['event_id']
+    decision = req['decision']
+    event = Event.query.filter_by(id=event_id).first()
+    agreements = event.agreements.filter(Agreement.final==False).all()
+    event.decision = decision 
+    if len(agreements) > 0:
+        db.session.delete(agreements)
+    db.session.commit()
     return make_response(jsonify({"mod_name":'last'}), 200)
 
 @app.route('/search/<variable>', methods=['GET'])
