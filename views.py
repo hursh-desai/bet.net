@@ -24,7 +24,6 @@ def sign_up():
     password = req['password']
     user_exists = User.query.filter_by(username=username).first()
     if user_exists is not None:
-        print(something)
         res = make_response(jsonify({"message": False}), 401)
         return res
     user = User(username=username)
@@ -142,16 +141,18 @@ def decision():
         agreements = event.agreements.filter(Agreement.final==False).all()
     except:
         return make_response(jsonify({"mod_name":'second'}), 200)
-
     try:
-        event.decision = decision
+        event.decision = decision 
+    except:
+        return make_response(jsonify({"mod_name":'third',"somethinge":len(agreements), "couldve":event.decision}), 200)
+    try:
         db.session.delete(agreements)  
     except:
-        return make_response(jsonify({"mod_name":'third'}), 200)
+        return make_response(jsonify({"mod_name":'fourth',"somethinge":len(agreements), "couldve":event.decision}), 200)
     try:
         db.session.commit()
     except:
-        return make_response(jsonify({"mod_name":'fourth'}), 200)
+        return make_response(jsonify({"mod_name":'fifth'}), 200)
     return make_response(jsonify({"mod_name":'last'}), 200)
 
 @app.route('/search/<variable>', methods=['GET'])
