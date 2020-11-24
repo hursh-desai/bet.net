@@ -132,15 +132,27 @@ def reject():
 def decision():
     req = request.get_json()
     if req is None: return redirect(url_for('home'))
-    event_id = req['event_id']
-    decision = req['decision']
-    event = Event.query.filter_by(id=event_id).first()
-    agreements = event.agreements.filter(Agreement.final==False).all()
-    print(agreements)
-    db.session.delete(agreements)
-    event.decision = decision
-    db.session.commit()
-    return 'agree'
+    try:
+        event_id = req['event_id']
+        decision = req['decision']
+    except:
+        return make_response(jsonify({"mod_name":'first'}), 200)
+    try:
+        event = Event.query.filter_by(id=event_id).first()
+        agreements = event.agreements.filter(Agreement.final==False).all()
+    except:
+        return make_response(jsonify({"mod_name":'second'}), 200)
+
+    try:
+        event.decision = decision
+        db.session.delete(agreements)  
+    except:
+        return make_response(jsonify({"mod_name":'third'}), 200)
+    try:
+        db.session.commit()
+    except:
+        return make_response(jsonify({"mod_name":'fourth'}), 200)
+    return make_response(jsonify({"mod_name":'last'}), 200)
 
 @app.route('/search/<variable>', methods=['GET'])
 def search(variable):

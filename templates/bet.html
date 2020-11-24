@@ -11,12 +11,12 @@
     {% endif %}
 
     <span class="username" onclick="user(this);" id='{{ bet.creator.username }}'>{{ bet.creator.username }}</span>
-    <div class='tracker' id='{{ bet.id }}'>
+    <div class='tracker' id='tracker-{{ bet.id }}'>
         <span class="first-stage"></span>
     </div>
     
     {% if bet is in current_user.bets_created or bet is in current_user.bets_engaged_in %}
-        <script>document.getElementById('{{ bet.id }}').getElementsByClassName('first-stage')[0].style.backgroundColor = 'lightblue';</script>
+        <script>document.getElementById('tracker-{{ bet.id }}').getElementsByClassName('first-stage')[0].style.backgroundColor = 'lightblue';</script>
     {% endif %}
 
     {% if user is not defined %}

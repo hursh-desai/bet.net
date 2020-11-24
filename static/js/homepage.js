@@ -136,7 +136,7 @@ function reject(ele) {
     .then(response => location.reload(true));
 }
 
-function decide(ele) {
+async function decide(ele) {
     var event_id = ele.getAttribute('id');
     var decider = ele.getAttribute('decider');
     if (decider == 'true') {
@@ -150,15 +150,16 @@ function decide(ele) {
         event_id: event_id,
         decision: decision
     };
-    console.log(entry);
-        fetch('/decision', {
+    response = await fetch('/decision', {
         method: "POST",
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(entry),
-    })
-    .then(response => location.reload(true));
+    });
+    json = await response.json();
+    console.log(json);
+    location.reload(true);
 }
 
