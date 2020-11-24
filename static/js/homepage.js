@@ -24,10 +24,8 @@ async function create_event() {
         event_name: event_name,
         mod_name: mod_name
     };
-
     response = await fetch('/create_event', {
         method: "POST",
-        redirect: 'follow',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +34,6 @@ async function create_event() {
         body: JSON.stringify(entry),
     });
     json = await response.json();
-
     if (!response.ok) {
         error.innerHTML = json.error
     }
@@ -62,7 +59,6 @@ async function create_bet() {
     };
     response = fetch('/create_bet', {
         method: "POST",
-        redirect: 'follow',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',

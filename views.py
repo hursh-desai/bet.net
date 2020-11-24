@@ -71,8 +71,11 @@ def create_event():
     print(moderator_name)
     creator_id = current_user.id
     moderator = User.query.filter_by(username=moderator_name).first()
+    event_if = Event.query.filter_by(name=event_name).first()
     if event_name=='':
         return make_response(jsonify({"error":str('Enter an Event Name')}), 401) 
+    elif event_if is not None:
+        return make_response(jsonify({"error":str('Event Already Exists')}), 401) 
     elif moderator==None:
         return make_response(jsonify({"error":str('Invalid Moderator Name')}), 401) 
     else:
@@ -80,7 +83,7 @@ def create_event():
         event = Event(name=event_name, creator_id=creator_id, moderator_id=moderator_id, access=True)
         db.session.add(event)
         db.session.commit()
-        return redirect(url_for("eventname", variable=event_name), code=301)
+        return make_response(jsonify({"Success":"Success"}), 200)
 
 @app.route('/create_bet', methods=['POST'])
 def create_bet():
