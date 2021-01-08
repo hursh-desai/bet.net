@@ -1,2 +1,2 @@
 # bet.net
-[Betting Website](http://bet-net.herokuapp.com/)
+[Link to Web App](http://bet-net.herokuapp.com/)
